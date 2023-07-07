@@ -19,25 +19,22 @@ model Quote {
   travellers_amount     Int         @default(1)
   transportation        String
   price                 Int
-  status                QuoteStatus @default(PENDING)
+  status                String
   contact               String
+  created_at            DateTime    @default(now())
+  updated_at            DateTime    @updatedAt
 
   @@map("quotes")
 }
 
 model Contact {
-  id          String @id @default(uuid())
-  first_name  String
-  last_name   String
-  phone       String @unique
-  email       String  @unique
+  id            String    @id @default(uuid())
+  first_name    String
+  last_name     String
+  phone         String    @unique
+  email         String    @unique
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
 
   @@map("contacts")
-}
-
-enum QuoteStatus {
-  PENDING     // When the quote is created but the trip does not happened yet
-  INPROGRESS  // When the trip is happening
-  COMPLETED   // When the trip has been successfully completed
-  CANCELLED   // When the quote is no longer valid 
 }
