@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Quote {
+  id                    String      @id @default(uuid())
+  departure_location    String
+  destination_location  String
+  departure_date        DateTime
+  destination_date      DateTime
+  travellers_amount     Int         @default(1)
+  transportation        String
+  price                 Int
+  status                QuoteStatus @default(PENDING)
+  contact               String
+
+  @@map("quotes")
+}
+
+model Contact {
+  id          String @id @default(uuid())
+  first_name  String
+  last_name   String
+  phone       String @unique
+  email       String  @unique
+
+  @@map("contacts")
+}
+
+enum QuoteStatus {
+  PENDING     // When the quote is created but the trip does not happened yet
+  INPROGRESS  // When the trip is happening
+  COMPLETED   // When the trip has been successfully completed
+  CANCELLED   // When the quote is no longer valid 
+}
