@@ -20,7 +20,8 @@ model Quote {
   transportation        String
   price                 Int
   status                String
-  contact               String
+  contactId             String
+  contact               Contact     @relation(fields: [contactId], references: [id])
   created_at            DateTime    @default(now())
   updated_at            DateTime    @updatedAt
 
@@ -33,6 +34,7 @@ model Contact {
   last_name     String
   phone         String    @unique
   email         String    @unique
+  quotes        Quote[]
   created_at    DateTime  @default(now())
   updated_at    DateTime  @updatedAt
 
