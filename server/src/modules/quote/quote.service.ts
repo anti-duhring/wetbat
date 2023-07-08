@@ -6,6 +6,7 @@ import {
   EntityNotFoundException,
   InvalidDataException,
 } from '../../common/exceptions';
+import { QuoteErrorMessages } from '../../common/errorMessages';
 
 @Injectable()
 export class QuoteService {
@@ -13,19 +14,10 @@ export class QuoteService {
 
   async create(data: QuoteDTO) {
     const { destination_date, departure_date } = data;
+
+    this.validateDestinationAndDepartureDate(destination_date, departure_date);
+
     data.status = QuoteStatus.PENDING;
-
-    if (
-      !this.isDestinationDateGreaterThanDepartureDate(
-        destination_date,
-        departure_date,
-      )
-    ) {
-      throw new InvalidDataException(
-        'Destination date must be greater than departure date',
-      );
-    }
-
     const quote = await this.prisma.quote.create({ data });
 
     return quote;
@@ -38,22 +30,14 @@ export class QuoteService {
 
   async update(id: string, data: QuoteUpdateDTO) {
     const { destination_date, departure_date } = data;
+
+    this.validateDestinationAndDepartureDate(destination_date, departure_date);
+
     const quoteExists = await this.prisma.quote.findUnique({
       where: { id },
     });
     if (!quoteExists) {
       throw new EntityNotFoundException('Quote');
-    }
-
-    if (
-      !this.isDestinationDateGreaterThanDepartureDate(
-        destination_date,
-        departure_date,
-      )
-    ) {
-      throw new InvalidDataException(
-        'Destination date must be greater than departure date',
-      );
     }
 
     return await this.prisma.quote.update({
@@ -74,10 +58,22 @@ export class QuoteService {
     });
   }
 
-  isDestinationDateGreaterThanDepartureDate(
+  validateDestinationAndDepartureDate(
     destinationDate: Date,
     departureDate: Date,
   ) {
-    return destinationDate > departureDate;
+    const now = new Date();
+
+    if (destinationDate <= now || departureDate <= now) {
+      throw new InvalidDataException(
+        QuoteErrorMessages.DEPARTURE_AND_DESTINATION_DATE_HAS_ALREADY_PASSED,
+      );
+    }
+
+    if (departureDate > destinationDate) {
+      throw new InvalidDataException(
+        QuoteErrorMessages.DEPARTURE_DATE_IS_GREATER_THAN_DESTINATION_DATE,
+      );
+    }
   }
 }

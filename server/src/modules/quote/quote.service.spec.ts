@@ -41,6 +41,7 @@ describe('Quotes Service', () => {
             .mockImplementation(async ({ data, where }) =>
               Promise.resolve({ ...data, id: where.id }),
             ),
+          delete: jest.fn().mockResolvedValue(true),
           findMany: jest
             .fn()
             .mockResolvedValue(
@@ -75,6 +76,30 @@ describe('Quotes Service', () => {
       const newQuoteData = quoteFactory.build({
         destination_date: faker.date.soon(),
         departure_date: faker.date.future(),
+      });
+
+      const createSpy = jest.spyOn(prismaService.quote, 'create');
+
+      await expect(quoteService.create(newQuoteData)).rejects.toThrowError(
+        InvalidDataException,
+      );
+      expect(createSpy).toBeCalledTimes(0);
+    });
+    it('Should throw an error if departure date has already passed', async () => {
+      const newQuoteData = quoteFactory.build({
+        departure_date: faker.date.past(),
+      });
+
+      const createSpy = jest.spyOn(prismaService.quote, 'create');
+
+      await expect(quoteService.create(newQuoteData)).rejects.toThrowError(
+        InvalidDataException,
+      );
+      expect(createSpy).toBeCalledTimes(0);
+    });
+    it('Should throw an error if destination date has already passed', async () => {
+      const newQuoteData = quoteFactory.build({
+        destination_date: faker.date.past(),
       });
 
       const createSpy = jest.spyOn(prismaService.quote, 'create');
@@ -129,6 +154,40 @@ describe('Quotes Service', () => {
       ).rejects.toThrowError(InvalidDataException);
       expect(updateSpy).toBeCalledTimes(0);
     });
+    it('Should throw an error if departure date has already passed', async () => {
+      const existentQuote = quoteFactory.build({ id: faker.string.uuid() });
+      const newQuoteData = quoteFactory.build({
+        departure_date: faker.date.past(),
+      });
+
+      prismaService.quote.findUnique = jest
+        .fn()
+        .mockResolvedValue(existentQuote);
+
+      const updateSpy = jest.spyOn(prismaService.quote, 'update');
+
+      await expect(
+        quoteService.update(existentQuote.id, newQuoteData),
+      ).rejects.toThrowError(InvalidDataException);
+      expect(updateSpy).toBeCalledTimes(0);
+    });
+    it('Should throw an error if destination date has already passed', async () => {
+      const existentQuote = quoteFactory.build({ id: faker.string.uuid() });
+      const newQuoteData = quoteFactory.build({
+        destination_date: faker.date.past(),
+      });
+
+      prismaService.quote.findUnique = jest
+        .fn()
+        .mockResolvedValue(existentQuote);
+
+      const updateSpy = jest.spyOn(prismaService.quote, 'update');
+
+      await expect(
+        quoteService.update(existentQuote.id, newQuoteData),
+      ).rejects.toThrowError(InvalidDataException);
+      expect(updateSpy).toBeCalledTimes(0);
+    });
     it('Should throw an error if quote does not exist', async () => {
       const newQuoteData = quoteFactory.build();
 
@@ -140,6 +199,30 @@ describe('Quotes Service', () => {
         quoteService.update(faker.string.uuid(), newQuoteData),
       ).rejects.toThrowError(EntityNotFoundException);
       expect(updateSpy).toBeCalledTimes(0);
+    });
+  });
+  describe('Delete', () => {
+    it('Should delete a quote', async () => {
+      const existentQuote = quoteFactory.build({ id: faker.string.uuid() });
+
+      prismaService.quote.findUnique = jest
+        .fn()
+        .mockResolvedValue(existentQuote);
+
+      const deleteSpy = jest.spyOn(prismaService.quote, 'delete');
+      await quoteService.delete(existentQuote.id);
+
+      expect(deleteSpy).toHaveBeenCalledTimes(1);
+    });
+    it('Should throw an error if quote does not exist', async () => {
+      prismaService.quote.findUnique = jest.fn().mockResolvedValue(null);
+
+      const deleteSpy = jest.spyOn(prismaService.quote, 'delete');
+
+      await expect(
+        quoteService.delete(faker.string.uuid()),
+      ).rejects.toThrowError(EntityNotFoundException);
+      expect(deleteSpy).toBeCalledTimes(0);
     });
   });
 });
