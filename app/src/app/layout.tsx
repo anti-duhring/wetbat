@@ -1,20 +1,17 @@
 'use client'
 
-import './globals.css';
+import './globals.css'
 
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { Inter } from 'next/font/google';
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import { Inter } from 'next/font/google'
 
-import Navbar from './components/Navbar';
-import theme from './utils/theme';
+import Navbar from './features/AppBar/components/Navbar'
+import theme from './core/theme'
+import { ReactNode } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <ThemeProvider theme={theme}>
