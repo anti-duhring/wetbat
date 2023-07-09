@@ -1,6 +1,5 @@
 import {
   Box,
-  Tooltip,
   IconButton,
   Avatar,
   Menu,
@@ -24,14 +23,13 @@ const AvatarWithMenu = () => {
 
   return (
     <Box sx={{ flexGrow: 0 }}>
-      <Tooltip title="Open profile">
-        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar
-            alt="Remy Sharp"
-            src="https://mui.com/static/images/avatar/2.jpg"
-          />
-        </IconButton>
-      </Tooltip>
+      <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+        <Avatar
+          alt="Remy Sharp"
+          src="https://mui.com/static/images/avatar/2.jpg"
+        />
+      </IconButton>
+
       <Menu
         sx={{ mt: '45px' }}
         id="menu-appbar"
