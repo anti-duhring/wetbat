@@ -15,15 +15,17 @@ describe('Quotes Service', () => {
   let prismaService: PrismaService;
 
   const quoteFactory = Factory.Sync.makeFactory<QuoteDTO>({
-    contactId: faker.string.uuid(),
-    departure_date: faker.date.soon(),
-    departure_location: faker.location.city(),
-    destination_date: faker.date.future(),
-    destination_location: faker.location.city(),
-    price: faker.number.int(),
-    transportation: faker.vehicle.type(),
-    travellers_amount: faker.number.int(),
-    status: faker.helpers.arrayElement(Object.values(QuoteStatus)),
+    contactId: Factory.each(() => faker.string.uuid()),
+    departure_date: Factory.each(() => faker.date.soon()),
+    departure_location: Factory.each(() => faker.location.city()),
+    destination_date: Factory.each(() => faker.date.future()),
+    destination_location: Factory.each(() => faker.location.city()),
+    price: Factory.each(() => faker.number.int()),
+    transportation: Factory.each(() => faker.vehicle.type()),
+    travellers_amount: Factory.each(() => faker.number.int({ min: 1 })),
+    status: Factory.each(() =>
+      faker.helpers.arrayElement(Object.values(QuoteStatus)),
+    ),
   });
 
   beforeEach(async () => {
@@ -65,10 +67,9 @@ describe('Quotes Service', () => {
     it('Should create a quote', async () => {
       const newQuoteData = quoteFactory.build();
 
-      const createSpy = jest.spyOn(prismaService.quote, 'create');
       const result = await quoteService.create(newQuoteData);
 
-      expect(createSpy).toHaveBeenCalledTimes(1);
+      expect(prismaService.quote.create).toHaveBeenCalledTimes(1);
       expect(result).toEqual({ ...newQuoteData, id: expect.any(String) });
       expect(result.status).toBe(QuoteStatus.PENDING);
     });
@@ -78,45 +79,38 @@ describe('Quotes Service', () => {
         departure_date: faker.date.future(),
       });
 
-      const createSpy = jest.spyOn(prismaService.quote, 'create');
-
       await expect(quoteService.create(newQuoteData)).rejects.toThrowError(
         InvalidDataException,
       );
-      expect(createSpy).toBeCalledTimes(0);
+      expect(prismaService.quote.create).toBeCalledTimes(0);
     });
     it('Should throw an error if departure date has already passed', async () => {
       const newQuoteData = quoteFactory.build({
         departure_date: faker.date.past(),
       });
 
-      const createSpy = jest.spyOn(prismaService.quote, 'create');
-
       await expect(quoteService.create(newQuoteData)).rejects.toThrowError(
         InvalidDataException,
       );
-      expect(createSpy).toBeCalledTimes(0);
+      expect(prismaService.quote.create).toBeCalledTimes(0);
     });
     it('Should throw an error if destination date has already passed', async () => {
       const newQuoteData = quoteFactory.build({
         destination_date: faker.date.past(),
       });
 
-      const createSpy = jest.spyOn(prismaService.quote, 'create');
-
       await expect(quoteService.create(newQuoteData)).rejects.toThrowError(
         InvalidDataException,
       );
-      expect(createSpy).toBeCalledTimes(0);
+      expect(prismaService.quote.create).toBeCalledTimes(0);
     });
   });
 
-  describe('Get All', () => {
+  describe('Find All', () => {
     it('Should get all quotes', async () => {
-      const getAllSpy = jest.spyOn(prismaService.quote, 'findMany');
       const result = await quoteService.findAll();
 
-      expect(getAllSpy).toHaveBeenCalledTimes(1);
+      expect(prismaService.quote.findMany).toHaveBeenCalledTimes(1);
       expect(result).toHaveLength(5);
     });
   });
@@ -130,10 +124,9 @@ describe('Quotes Service', () => {
         .fn()
         .mockResolvedValue(existentQuote);
 
-      const updateSpy = jest.spyOn(prismaService.quote, 'update');
       const result = await quoteService.update(existentQuote.id, newQuoteData);
 
-      expect(updateSpy).toHaveBeenCalledTimes(1);
+      expect(prismaService.quote.update).toHaveBeenCalledTimes(1);
       expect(result).toEqual({ ...newQuoteData, id: existentQuote.id });
     });
     it('Should throw an error if departure date is greater than destination date', async () => {
@@ -147,12 +140,10 @@ describe('Quotes Service', () => {
         .fn()
         .mockResolvedValue(existentQuote);
 
-      const updateSpy = jest.spyOn(prismaService.quote, 'update');
-
       await expect(
         quoteService.update(existentQuote.id, newQuoteData),
       ).rejects.toThrowError(InvalidDataException);
-      expect(updateSpy).toBeCalledTimes(0);
+      expect(prismaService.quote.update).toBeCalledTimes(0);
     });
     it('Should throw an error if departure date has already passed', async () => {
       const existentQuote = quoteFactory.build({ id: faker.string.uuid() });
@@ -164,12 +155,10 @@ describe('Quotes Service', () => {
         .fn()
         .mockResolvedValue(existentQuote);
 
-      const updateSpy = jest.spyOn(prismaService.quote, 'update');
-
       await expect(
         quoteService.update(existentQuote.id, newQuoteData),
       ).rejects.toThrowError(InvalidDataException);
-      expect(updateSpy).toBeCalledTimes(0);
+      expect(prismaService.quote.update).toBeCalledTimes(0);
     });
     it('Should throw an error if destination date has already passed', async () => {
       const existentQuote = quoteFactory.build({ id: faker.string.uuid() });
@@ -181,24 +170,20 @@ describe('Quotes Service', () => {
         .fn()
         .mockResolvedValue(existentQuote);
 
-      const updateSpy = jest.spyOn(prismaService.quote, 'update');
-
       await expect(
         quoteService.update(existentQuote.id, newQuoteData),
       ).rejects.toThrowError(InvalidDataException);
-      expect(updateSpy).toBeCalledTimes(0);
+      expect(prismaService.quote.update).toBeCalledTimes(0);
     });
     it('Should throw an error if quote does not exist', async () => {
       const newQuoteData = quoteFactory.build();
 
       prismaService.quote.findUnique = jest.fn().mockResolvedValue(null);
 
-      const updateSpy = jest.spyOn(prismaService.quote, 'update');
-
       await expect(
         quoteService.update(faker.string.uuid(), newQuoteData),
       ).rejects.toThrowError(EntityNotFoundException);
-      expect(updateSpy).toBeCalledTimes(0);
+      expect(prismaService.quote.update).toBeCalledTimes(0);
     });
   });
   describe('Delete', () => {
@@ -209,20 +194,17 @@ describe('Quotes Service', () => {
         .fn()
         .mockResolvedValue(existentQuote);
 
-      const deleteSpy = jest.spyOn(prismaService.quote, 'delete');
       await quoteService.delete(existentQuote.id);
 
-      expect(deleteSpy).toHaveBeenCalledTimes(1);
+      expect(prismaService.quote.delete).toHaveBeenCalledTimes(1);
     });
     it('Should throw an error if quote does not exist', async () => {
       prismaService.quote.findUnique = jest.fn().mockResolvedValue(null);
 
-      const deleteSpy = jest.spyOn(prismaService.quote, 'delete');
-
       await expect(
         quoteService.delete(faker.string.uuid()),
       ).rejects.toThrowError(EntityNotFoundException);
-      expect(deleteSpy).toBeCalledTimes(0);
+      expect(prismaService.quote.delete).toBeCalledTimes(0);
     });
   });
 });
