@@ -1,4 +1,4 @@
-import theme from '@/app/core/theme'
+import { Drawer as DrawerEl } from '@mui/material'
 import { Divider, List, styled, Typography } from '@mui/material'
 
 import {
@@ -6,15 +6,14 @@ import {
   generalSidebarItems,
 } from '../utils/sidebarItems'
 import DrawerAndSidebarItem from './DrawerAndSiderbarItem'
+import theme from '@/app/core/theme'
+import { useContext } from 'react'
+import { DrawerContext } from '../context/drawerContext'
 
-const SidebarContainer = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.neutral.main,
-  height: '100%',
-}))
-
-const Sidebar = () => {
+const Drawer = () => {
+  const { isOpen, toggleDrawer } = useContext(DrawerContext)
   return (
-    <SidebarContainer>
+    <DrawerEl open={isOpen} onClose={toggleDrawer} ModalProps={{ keepMounted: true }}>
       <List>
         {generalSidebarItems.map(({ Icon, ...props }) => (
           <DrawerAndSidebarItem key={props.title} Icon={<Icon />} {...props} />
@@ -33,8 +32,8 @@ const Sidebar = () => {
       >
         Allright received by wetbat 2023 ©
       </Typography>
-    </SidebarContainer>
+    </DrawerEl>
   )
 }
 
-export default Sidebar
+export default Drawer

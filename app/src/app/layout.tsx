@@ -2,14 +2,18 @@
 
 import './globals.css'
 
-import { CssBaseline, ThemeProvider } from '@mui/material'
+import {
+  Box,
+  CssBaseline,
+  styled,
+  ThemeProvider,
+  useMediaQuery,
+} from '@mui/material'
 import { Inter } from 'next/font/google'
-
-import Navbar from './features/AppBar/components/Navbar'
-import theme from './core/theme'
 import { ReactNode } from 'react'
-import Sidebar from './features/AppBar/components/Sidebar'
-import { Box, styled } from '@mui/material'
+
+import theme from './core/theme'
+import { DrawerOrSidebarComponent } from './features/AppBar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -31,14 +35,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Box
             sx={{
               display: 'flex',
-              height: '100vh',
             }}
           >
-            <Navbar />
-            <Box component="main">
-              <DrawerHeader />
-              <Sidebar />
-            </Box>
+            <DrawerOrSidebarComponent />
             <Box component="main">
               <DrawerHeader />
               {children}

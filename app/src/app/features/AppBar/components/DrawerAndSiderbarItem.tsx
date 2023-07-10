@@ -12,7 +12,7 @@ type Props = {
   link: string
 }
 
-const SidebarItem = ({ Icon, title, link }: Props) => {
+const DrawerAndSidebarItem = ({ Icon, title, link }: Props) => {
   return (
     <ListItem disablePadding>
       <ListItemButton>
@@ -28,4 +28,4 @@ const SidebarItem = ({ Icon, title, link }: Props) => {
   )
 }
 
-export default SidebarItem
+export default DrawerAndSidebarItem
