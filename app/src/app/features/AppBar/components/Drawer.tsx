@@ -13,7 +13,11 @@ import { DrawerContext } from '../context/drawerContext'
 const Drawer = () => {
   const { isOpen, toggleDrawer } = useContext(DrawerContext)
   return (
-    <DrawerEl open={isOpen} onClose={toggleDrawer} ModalProps={{ keepMounted: true }}>
+    <DrawerEl
+      open={isOpen}
+      onClose={toggleDrawer}
+      ModalProps={{ keepMounted: true }}
+    >
       <List>
         {generalSidebarItems.map(({ Icon, ...props }) => (
           <DrawerAndSidebarItem key={props.title} Icon={<Icon />} {...props} />

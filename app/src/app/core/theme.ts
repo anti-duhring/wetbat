@@ -24,6 +24,7 @@ const theme = createTheme({
     neutral: {
       main: '#e6e6e6',
     },
+    darkOrange: '#F0CF85',
     darkGrey: '#7e7e7e',
   },
   typography: {
@@ -39,12 +40,14 @@ declare module '@mui/material/styles' {
   interface Palette {
     neutral: Palette['primary']
     darkGrey: string
+    darkOrange: string
   }
 
   // allow configuration using `createTheme`
   interface PaletteOptions {
     neutral?: PaletteOptions['primary']
     darkGrey?: string
+    darkOrange?: string
   }
 }
 

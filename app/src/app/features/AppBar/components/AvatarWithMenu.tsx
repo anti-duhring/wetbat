@@ -6,10 +6,16 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { DrawerContext } from '../context/drawerContext'
+import {
+  avatarDropdownMenuItemsMobile,
+  avatarDropdownMenuItemsWeb,
+} from '../utils/avatarDropdownMenuItems'
 
 const AvatarWithMenu = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
+  const { isMediaQueryAboveSm } = useContext(DrawerContext)
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
@@ -19,7 +25,9 @@ const AvatarWithMenu = () => {
     setAnchorElUser(null)
   }
 
-  const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
+  const menuItems = isMediaQueryAboveSm
+    ? avatarDropdownMenuItemsWeb
+    : avatarDropdownMenuItemsMobile
 
   return (
     <Box sx={{ flexGrow: 0 }}>
@@ -46,9 +54,9 @@ const AvatarWithMenu = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {settings.map((setting) => (
-          <MenuItem key={setting} onClick={handleCloseUserMenu}>
-            <Typography textAlign="center">{setting}</Typography>
+        {menuItems.map((item) => (
+          <MenuItem key={item} onClick={handleCloseUserMenu}>
+            <Typography textAlign="center">{item}</Typography>
           </MenuItem>
         ))}
       </Menu>

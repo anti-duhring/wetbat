@@ -1,6 +1,5 @@
-
 import { Metadata } from 'next'
-import { Welcome } from './features/Home'
+import { Dashboard, Welcome } from './features/Home'
 
 export const metadata: Metadata = {
   title: 'WetBat travel',
@@ -9,9 +8,5 @@ export const metadata: Metadata = {
 }
 
 export default function Home() {
-  return (
-    <>
-      <Welcome />
-    </>
-  )
+  return <Dashboard />
 }

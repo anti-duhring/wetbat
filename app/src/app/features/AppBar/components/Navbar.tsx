@@ -32,10 +32,11 @@ const Navbar = () => {
 
         {isMediaQueryAboveSm && <Search />}
 
-        {isMediaQueryAboveSm && navbarIconsButton.map((Icon, index) => (
-          <NavbarIconButton key={index} Icon={<Icon />} />
-        ))}
-        
+        {isMediaQueryAboveSm &&
+          navbarIconsButton.map((Icon, index) => (
+            <NavbarIconButton key={index} Icon={<Icon />} />
+          ))}
+
         <AvatarWithMenu />
       </Toolbar>
     </AppBar>

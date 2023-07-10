@@ -17,11 +17,7 @@ export const DrawerContext = createContext<TDrawerContext>({
   toggleDrawer: () => {},
 })
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  padding: theme.spacing(0, 1),
+const Header = styled('div')(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }))
@@ -37,8 +33,8 @@ export const DrawerOrSidebarComponent = () => {
       value={{ isOpen, toggleDrawer, isMediaQueryAboveSm }}
     >
       <Navbar />
-      <Box component="main">
-        <DrawerHeader />
+      <Box>
+        <Header />
         {isMediaQueryAboveSm ? <Sidebar /> : <Drawer />}
       </Box>
     </DrawerContext.Provider>

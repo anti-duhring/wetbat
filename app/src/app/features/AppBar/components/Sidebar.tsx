@@ -10,6 +10,7 @@ import DrawerAndSidebarItem from './DrawerAndSiderbarItem'
 const SidebarContainer = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.neutral.main,
   height: '100%',
+  minWidth: '200px',
 }))
 
 const Sidebar = () => {
@@ -28,10 +29,15 @@ const Sidebar = () => {
       </List>
       <Divider />
       <Typography
-        variant="caption"
-        sx={{ p: 2, color: theme.palette.grey[600] }}
+        variant="body1"
+        fontSize={12}
+        sx={{
+          p: 2,
+          textAlign: 'center',
+          color: theme.palette.grey[600],
+        }}
       >
-        Allright received by wetbat 2023 ©
+        Allright received by wetbat 2023©
       </Typography>
     </SidebarContainer>
   )
