@@ -67,7 +67,7 @@ const Welcome = () => {
             justifyContent: 'center',
           }}
         >
-          <StatisticsWelcome number={101} legend="NEW LEADERS" />
+          <StatisticsWelcome number={101} legend="NEW LEADS" />
           <StatisticsWelcome number={35} legend="QUOTES CREATED" />
           <StatisticsWelcome number={40} legend="PENDING ORDERS" />
         </Box>

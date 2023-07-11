@@ -35,6 +35,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Box
             sx={{
               display: 'flex',
+              backgroundColor: (theme) => theme.palette.neutral.light,
             }}
           >
             <DrawerOrSidebarComponent />
