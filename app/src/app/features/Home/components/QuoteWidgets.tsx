@@ -1,16 +1,18 @@
 import { Box } from '@mui/material'
 import QuickQuote from './QuickQuote'
 import PendingQuotes from './PendingQuotes'
+import NewLeads from './NewLeads'
 
-const QuoteWidget = () => {
+const QuoteWidgets = () => {
   return (
     <Box
       sx={{ display: 'flex', flexDirection: 'row', gap: 2, flexWrap: 'wrap' }}
     >
       <QuickQuote />
       <PendingQuotes />
+      <NewLeads />
     </Box>
   )
 }
 
-export default QuoteWidget
+export default QuoteWidgets

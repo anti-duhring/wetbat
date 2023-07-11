@@ -41,7 +41,7 @@ const rows = [
     name: 'Gingerbread',
     destination: 'France',
     price: '$1.99',
-  }
+  },
 ]
 const PendingQuotes = () => {
   return (

@@ -31,7 +31,7 @@ const Widget = ({
   contentSx = {},
 }: Props) => {
   return (
-    <Card sx={{ ...sx, minWidth: 300 }} elevation={1}>
+    <Card sx={{ minWidth: 300, ...sx }} elevation={1}>
       <CardHeader
         title={<Typography variant="h6">{title}</Typography>}
         action={actionButtons}
@@ -41,7 +41,7 @@ const Widget = ({
       />
       <Divider />
       <CardContent
-        sx={{ ...contentSx, display: 'flex', flexDirection: 'column', gap: 2 }}
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2, ...contentSx }}
       >
         {children}
       </CardContent>

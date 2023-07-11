@@ -27,6 +27,15 @@ const theme = createTheme({
     },
     darkOrange: '#F0CF85',
     darkGrey: '#7e7e7e',
+    darkRed: '#FF5533',
+    progressbarColors: {
+      0: '#32afa9',
+      1: '#f0ce84',
+      2: '#f67474',
+      3: '#b6e2ff',
+      4: '#dcb1e9',
+      5: '#b0d69b',
+    },
   },
   typography: {
     fontFamily: roboto.style.fontFamily,
@@ -42,6 +51,16 @@ declare module '@mui/material/styles' {
     neutral: Palette['primary']
     darkGrey: string
     darkOrange: string
+    darkRed: string
+    progressbarColors: {
+      0: string
+      1: string
+      2: string
+      3: string
+      4: string
+      5: string
+      [key: string | number]: string
+    }
   }
 
   // allow configuration using `createTheme`
@@ -49,6 +68,16 @@ declare module '@mui/material/styles' {
     neutral?: PaletteOptions['primary']
     darkGrey?: string
     darkOrange?: string
+    darkRed?: string
+    progressbarColors?: {
+      0: string
+      1: string
+      2: string
+      3: string
+      4: string
+      5: string
+      [key: string | number]: string
+    }
   }
 }
 
