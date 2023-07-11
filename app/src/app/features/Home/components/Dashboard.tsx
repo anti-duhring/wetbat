@@ -1,8 +1,9 @@
 'use client'
 
-import QuickQuote from './QuickQuote'
-import Welcome from './Welcome'
 import { Box } from '@mui/material'
+
+import QuoteWidget from './QuoteWidgets'
+import Welcome from './Welcome'
 
 const Dashboard = () => {
   return (
@@ -10,7 +11,7 @@ const Dashboard = () => {
       sx={{ display: 'flex', width: '100%', p: 2, flexWrap: 'wrap', gap: 2 }}
     >
       <Welcome />
-      <QuickQuote />
+      <QuoteWidget />
     </Box>
   )
 }
