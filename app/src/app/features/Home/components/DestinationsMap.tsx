@@ -9,14 +9,13 @@ import {
   ZoomableGroup,
 } from 'react-simple-maps'
 import { GEOGRAPHY_URL } from '../utils/destinationsMap'
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 
 type TPosition = {
   coordinates: [number, number]
   zoom: number
 }
-
 
 const markers = [
   {
@@ -29,7 +28,6 @@ const markers = [
   { name: 'Sydney', coordinates: [151.208755, -33.865143] },
   { name: 'Hong Kong', coordinates: [114.177216, 22.302711] },
 ]
-
 
 const DestinationsMap = () => {
   const [position, setPosition] = useState<TPosition>({
@@ -49,10 +47,9 @@ const DestinationsMap = () => {
   }
 
   const handleMoveEnd = (position: TPosition) => setPosition(position)
-  
 
   return (
-    <Box sx={{ flex: 3, height: 'auto' }}>
+    <Box sx={{ flex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       <ComposableMap projection="geoEquirectangular" height={500}>
         <ZoomableGroup
           zoom={position.zoom}
@@ -102,7 +99,7 @@ const DestinationsMap = () => {
 }
 
 type TControlsProps = {
-  handleZoomIn: () => void,
+  handleZoomIn: () => void
   handleZoomOut: () => void
 }
 
@@ -110,12 +107,12 @@ const Controls = ({ handleZoomIn, handleZoomOut }: TControlsProps) => {
   return (
     <Box>
       <IconButton onClick={handleZoomIn}>
-        <AddCircleOutlineIcon sx={{fontSize: 30}} />
+        <AddCircleOutlineIcon sx={{ fontSize: 30 }} />
       </IconButton>
       <IconButton onClick={handleZoomOut}>
-        <RemoveCircleOutlineIcon sx={{fontSize: 30}} />
+        <RemoveCircleOutlineIcon sx={{ fontSize: 30 }} />
       </IconButton>
-  </Box>
+    </Box>
   )
 }
 

@@ -19,6 +19,7 @@ const QuickQuote = () => {
             <FullscreenIcon />
           </IconButton>
         }
+        sx={{ flex: 1, flexShrink: 2 }}
       >
         <Box sx={{ display: 'flex', gap: 2 }}>
           <TextField label="FROM" variant="filled" />

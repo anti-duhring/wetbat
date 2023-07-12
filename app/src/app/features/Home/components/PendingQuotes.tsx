@@ -54,6 +54,7 @@ const PendingQuotes = () => {
         </IconButton>
       }
       contentSx={{ padding: 0 }}
+      sx={{ flex: 1 }}
     >
       <Table aria-label="pending quotese" sx={{}}>
         <TableHead>

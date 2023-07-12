@@ -5,7 +5,7 @@ import DestinationsMap from './DestinationsMap'
 import Widget from './Widget'
 import ModeOfTravelIcon from '@mui/icons-material/ModeOfTravel'
 import { Divider, useMediaQuery, IconButton } from '@mui/material'
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 const PopularDestinations = () => {
   const isMediaQueryAboveSm = useMediaQuery(theme.breakpoints.up('sm'))
@@ -19,8 +19,11 @@ const PopularDestinations = () => {
           <MoreVertIcon />
         </IconButton>
       }
-      contentSx={{ display: 'flex', flexDirection: 'row' }}
-      sx={{ width: '100%' }}
+      contentSx={{
+        display: 'flex',
+        flexDirection: isMediaQueryAboveSm ? 'row' : 'column',
+      }}
+      sx={{ flex: 3 }}
     >
       <DestinationsCharts />
       <Divider orientation="vertical" flexItem />

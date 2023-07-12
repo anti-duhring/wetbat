@@ -25,6 +25,12 @@ const theme = createTheme({
       main: '#e6e6e6',
       light: '#edf0f9',
     },
+    badge: {
+      online: 'green',
+      away: 'orange',
+      busy: 'red',
+      offline: 'grey',
+    },
     darkOrange: '#F0CF85',
     darkGrey: '#7e7e7e',
     darkRed: '#FF5533',
@@ -61,6 +67,14 @@ declare module '@mui/material/styles' {
       5: string
       [key: string | number]: string
     }
+
+    badge: {
+      online: string
+      away: string
+      busy: string
+      offline: string
+      [key: string]: string
+    }
   }
 
   // allow configuration using `createTheme`
@@ -77,6 +91,14 @@ declare module '@mui/material/styles' {
       4: string
       5: string
       [key: string | number]: string
+    }
+
+    badge?: {
+      online: string
+      away: string
+      busy: string
+      offline: string
+      [key: string]: string
     }
   }
 }

@@ -48,8 +48,9 @@ const NewLeads = () => {
           <FullscreenIcon />
         </IconButton>
       }
+      sx={{ flex: 1 }}
     >
-      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+      <List>
         {items.map((item) => {
           return (
             <ListItem key={item.name}>
