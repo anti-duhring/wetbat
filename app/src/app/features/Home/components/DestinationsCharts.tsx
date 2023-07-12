@@ -34,9 +34,9 @@ const charts = [
 
 const DestinationsCharts = () => {
   return (
-    <Box sx={{ flex: 1 }}>
-      {charts.map((item, index) => {
-        return (
+    <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
+      {charts.map((item, index) => 
+         (
           <Box key={item.destine}>
             <Typography component="div" variant="subtitle1">
               {item.destine}
@@ -60,7 +60,7 @@ const DestinationsCharts = () => {
             />
           </Box>
         )
-      })}
+      )}
     </Box>
   )
 }
