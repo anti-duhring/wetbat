@@ -6,6 +6,7 @@ import {
   Min,
   IsPositive,
   IsUUID,
+  IsEmail
 } from 'class-validator';
 import { QuoteStatus } from './quote.types';
 
@@ -15,23 +16,23 @@ export class QuoteDTO {
 
   @IsString()
   @IsNotEmpty()
-  departure_location: string;
+  departureLocation: string;
 
   @IsString()
   @IsNotEmpty()
-  destination_location: string;
+  destinationLocation: string;
 
   @IsDate()
   @IsNotEmpty()
-  departure_date: Date;
+  departureDate: Date;
 
   @IsDate()
   @IsNotEmpty()
-  destination_date: Date;
+  destinationDate: Date;
 
   @IsNumber()
   @Min(1)
-  travellers_amount: number;
+  travellersAmount: number;
 
   @IsString()
   @IsNotEmpty()
@@ -45,13 +46,13 @@ export class QuoteDTO {
   @IsNotEmpty()
   status: QuoteStatus;
 
-  @IsUUID()
+  @IsEmail()
   @IsNotEmpty()
-  contactId: string;
+  contactEmail: string;
 
   @IsDate()
-  created_at?: Date;
+  createdAt?: Date;
 
   @IsDate()
-  updated_at?: Date;
+  updatedAt?: Date;
 }

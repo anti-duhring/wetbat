@@ -13,9 +13,9 @@ export class QuoteService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: QuoteDTO) {
-    const { destination_date, departure_date } = data;
+    const { destinationDate, departureDate } = data;
 
-    this.validateDestinationAndDepartureDate(destination_date, departure_date);
+    this.validateDestinationAndDepartureDate(destinationDate, departureDate);
 
     data.status = QuoteStatus.PENDING;
     const quote = await this.prisma.quote.create({ data });
@@ -29,9 +29,9 @@ export class QuoteService {
   }
 
   async update(id: string, data: QuoteUpdateDTO) {
-    const { destination_date, departure_date } = data;
+    const { destinationDate, departureDate } = data;
 
-    this.validateDestinationAndDepartureDate(destination_date, departure_date);
+    this.validateDestinationAndDepartureDate(destinationDate, departureDate);
 
     const quoteExists = await this.prisma.quote.findUnique({
       where: { id },

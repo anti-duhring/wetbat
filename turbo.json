@@ -1,0 +1,11 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "start:dev": {
+      "cache": false
+    },
+    "prisma:generate": {
+      "cache": false
+    }
+  }
+}

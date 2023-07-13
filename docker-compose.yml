@@ -10,18 +10,5 @@ services:
     ports:
       - 5432:5432
 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - postgres
-    ports:
-      - 3000:3000
-    environment:
-      - NODE_ENV=production
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres?schema=public
-    volumes:
-      - ./server:/app/server
 volumes:
   postgres-data:

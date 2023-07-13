@@ -15,14 +15,14 @@ describe('Quotes Service', () => {
   let prismaService: PrismaService;
 
   const quoteFactory = Factory.Sync.makeFactory<QuoteDTO>({
-    contactId: Factory.each(() => faker.string.uuid()),
-    departure_date: Factory.each(() => faker.date.soon()),
-    departure_location: Factory.each(() => faker.location.city()),
-    destination_date: Factory.each(() => faker.date.future()),
-    destination_location: Factory.each(() => faker.location.city()),
+    contactEmail: Factory.each(() => faker.internet.email()),
+    departureDate: Factory.each(() => faker.date.soon()),
+    departureLocation: Factory.each(() => faker.location.city()),
+    destinationDate: Factory.each(() => faker.date.future()),
+    destinationLocation: Factory.each(() => faker.location.city()),
     price: Factory.each(() => faker.number.int()),
     transportation: Factory.each(() => faker.vehicle.type()),
-    travellers_amount: Factory.each(() => faker.number.int({ min: 1 })),
+    travellersAmount: Factory.each(() => faker.number.int({ min: 1 })),
     status: Factory.each(() =>
       faker.helpers.arrayElement(Object.values(QuoteStatus)),
     ),
@@ -75,8 +75,8 @@ describe('Quotes Service', () => {
     });
     it('Should throw an error if departure date is greater than destination date', async () => {
       const newQuoteData = quoteFactory.build({
-        destination_date: faker.date.soon(),
-        departure_date: faker.date.future(),
+        destinationDate: faker.date.soon(),
+        departureDate: faker.date.future(),
       });
 
       await expect(quoteService.create(newQuoteData)).rejects.toThrowError(
@@ -86,7 +86,7 @@ describe('Quotes Service', () => {
     });
     it('Should throw an error if departure date has already passed', async () => {
       const newQuoteData = quoteFactory.build({
-        departure_date: faker.date.past(),
+        departureDate: faker.date.past(),
       });
 
       await expect(quoteService.create(newQuoteData)).rejects.toThrowError(
@@ -96,7 +96,7 @@ describe('Quotes Service', () => {
     });
     it('Should throw an error if destination date has already passed', async () => {
       const newQuoteData = quoteFactory.build({
-        destination_date: faker.date.past(),
+        destinationDate: faker.date.past(),
       });
 
       await expect(quoteService.create(newQuoteData)).rejects.toThrowError(
@@ -132,8 +132,8 @@ describe('Quotes Service', () => {
     it('Should throw an error if departure date is greater than destination date', async () => {
       const existentQuote = quoteFactory.build({ id: faker.string.uuid() });
       const newQuoteData = quoteFactory.build({
-        destination_date: faker.date.soon(),
-        departure_date: faker.date.future(),
+        destinationDate: faker.date.soon(),
+        departureDate: faker.date.future(),
       });
 
       prismaService.quote.findUnique = jest
@@ -148,7 +148,7 @@ describe('Quotes Service', () => {
     it('Should throw an error if departure date has already passed', async () => {
       const existentQuote = quoteFactory.build({ id: faker.string.uuid() });
       const newQuoteData = quoteFactory.build({
-        departure_date: faker.date.past(),
+        departureDate: faker.date.past(),
       });
 
       prismaService.quote.findUnique = jest
@@ -163,7 +163,7 @@ describe('Quotes Service', () => {
     it('Should throw an error if destination date has already passed', async () => {
       const existentQuote = quoteFactory.build({ id: faker.string.uuid() });
       const newQuoteData = quoteFactory.build({
-        destination_date: faker.date.past(),
+        destinationDate: faker.date.past(),
       });
 
       prismaService.quote.findUnique = jest

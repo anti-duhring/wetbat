@@ -13,11 +13,11 @@ export class ContactDTO {
 
   @IsString()
   @IsNotEmpty()
-  first_name: string;
+  firstName: string;
 
   @IsString()
   @IsNotEmpty()
-  last_name: string;
+  lastName: string;
 
   @IsPhoneNumber()
   @IsNotEmpty()
@@ -28,8 +28,8 @@ export class ContactDTO {
   email: string;
 
   @IsDate()
-  created_at?: Date;
+  createdAt?: Date;
 
   @IsDate()
-  updated_at?: Date;
+  updatedAt?: Date;
 }

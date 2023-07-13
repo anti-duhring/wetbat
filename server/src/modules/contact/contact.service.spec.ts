@@ -16,8 +16,8 @@ describe('Contact Service', () => {
 
   const contactFactory = Factory.Sync.makeFactory<ContactDTO>({
     email: Factory.each(() => faker.internet.email()),
-    first_name: Factory.each(() => faker.person.firstName()),
-    last_name: Factory.each(() => faker.person.lastName()),
+    firstName: Factory.each(() => faker.person.firstName()),
+    lastName: Factory.each(() => faker.person.lastName()),
     phone: Factory.each(() => faker.phone.number()),
   });
 

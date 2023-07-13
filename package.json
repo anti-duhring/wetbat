@@ -1,0 +1,30 @@
+{
+  "name": "wetbat",
+  "version": "1.0.0",
+  "description": "The wetbat application",
+  "scripts": {
+    "dev": "turbo start:dev",
+    "prisma:generate": "turbo prisma:generate"
+  },
+  "workspaces": [
+    "server",
+    "app"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anti-duhring/wetbat.git"
+  },
+  "keywords": [
+    "wetbat",
+    "launchcode"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/anti-duhring/wetbat/issues"
+  },
+  "homepage": "https://github.com/anti-duhring/wetbat#readme",
+  "dependencies": {
+    "turbo": "^1.10.7"
+  }
+}
