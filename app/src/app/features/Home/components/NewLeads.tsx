@@ -9,6 +9,7 @@ import {
 import Widget from './Widget'
 import MailOutlineIcon from '@mui/icons-material/MailOutline'
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
+import ReplayIcon from '@mui/icons-material/Replay'
 
 const items = [
   {
@@ -43,11 +44,14 @@ const NewLeads = () => {
       title="New Leads"
       Icon={MailOutlineIcon}
       contentSx={{ padding: 0 }}
-      actionButtons={
+      actionButtons={[
+        <IconButton>
+          <ReplayIcon />
+        </IconButton>,
         <IconButton>
           <FullscreenIcon />
-        </IconButton>
-      }
+        </IconButton>,
+      ]}
       sx={{ flex: 1 }}
     >
       <List>

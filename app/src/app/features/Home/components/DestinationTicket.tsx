@@ -12,7 +12,7 @@ const ticketData = {
   image: 'https://i.imgur.com/mb1497f.png',
   title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
   description:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut dolor a arcu semper consequat sit amet eu felis. Aliquam blandit euismod urna vel pulvinar. Cras purus enim, fermentum sit amet sem ut, egestas cursus magna.',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut dolor a arcu semper consequat sit amet eu felis. ',
   price: {
     currency: 12345,
     info: 'PRE-NIGHT',
@@ -23,7 +23,7 @@ const DestinationTicket = () => {
   const { image, title, description, price } = ticketData
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 300 }} elevation={4}>
       <CardMedia sx={{ height: 140 }} image={image} title={title} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

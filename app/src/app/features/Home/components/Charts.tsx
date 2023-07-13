@@ -4,11 +4,13 @@ import theme from '@/app/core/theme'
 import CloseRatiosChart from './CloseRatiosChart'
 
 const Charts = () => {
-  const isMediaQueryAboveSm = useMediaQuery(theme.breakpoints.up('sm'))
+  const isMediaQueryAboveSm = useMediaQuery(theme.breakpoints.up('sm'), {
+    defaultMatches: true,
+  })
   return (
-    <Box sx={{ display: 'flex', flex: 1 , gap: 2}}>
-        {isMediaQueryAboveSm && <RevenueChart />}
-        <CloseRatiosChart />
+    <Box sx={{ display: 'flex', flex: 1, gap: 2 }}>
+      {isMediaQueryAboveSm && <RevenueChart />}
+      <CloseRatiosChart />
     </Box>
   )
 }

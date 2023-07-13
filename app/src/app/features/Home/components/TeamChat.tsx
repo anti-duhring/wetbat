@@ -66,11 +66,11 @@ const StyledBadge = styled(Badge)(({ theme, color }) => ({
   },
   '@keyframes ripple': {
     '0%': {
-      transform: 'scale(.8)',
+      transform: 'scale(1.4)',
       opacity: 1,
     },
     '100%': {
-      transform: 'scale(2.4)',
+      transform: 'scale(3)',
       opacity: 0,
     },
   },

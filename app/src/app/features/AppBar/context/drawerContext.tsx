@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState } from 'react'
+import { createContext, useState } from 'react'
 import { useMediaQuery, Box, styled } from '@mui/material'
 import theme from '@/app/core/theme'
 import Navbar from '../components/Navbar'
@@ -24,7 +24,9 @@ const Header = styled('div')(({ theme }) => ({
 
 export const DrawerOrSidebarComponent = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const isMediaQueryAboveSm = useMediaQuery(theme.breakpoints.up('sm'))
+  const isMediaQueryAboveSm = useMediaQuery(theme.breakpoints.up('sm'), {
+    defaultMatches: true,
+  })
 
   const toggleDrawer = () => setIsOpen(!isOpen)
 

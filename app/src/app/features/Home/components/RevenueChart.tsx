@@ -12,7 +12,7 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartOptions 
+  ChartOptions,
 } from 'chart.js'
 import { faker } from '@faker-js/faker'
 import theme from '@/app/core/theme'
@@ -27,7 +27,7 @@ ChartJS.register(
   Legend,
 )
 
-export const options: ChartOptions  = {
+export const options: ChartOptions = {
   plugins: {
     legend: {
       position: 'top' as const,
@@ -37,7 +37,7 @@ export const options: ChartOptions  = {
       text: 'Revenue from this year',
     },
   },
-  animation: false
+  animation: false,
 }
 
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July']
@@ -71,10 +71,10 @@ const RevenueChart = () => {
         </IconButton>
       }
       sx={{ flex: 2 }}
-      contentSx={{ display: 'flex', alignItems: 'center'  }}
+      contentSx={{ display: 'flex', alignItems: 'center' }}
     >
       <Box sx={{ width: '100%' }}>
-        <Line options={options} data={data} updateMode='hide' />
+        <Line options={options} data={data} updateMode="hide" />
       </Box>
     </Widget>
   )

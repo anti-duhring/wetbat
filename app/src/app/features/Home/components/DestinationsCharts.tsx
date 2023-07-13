@@ -4,35 +4,12 @@ import {
   linearProgressClasses,
   Typography,
 } from '@mui/material'
+import { TDestination } from '../utils/destinationsMap'
 
-const charts = [
-  {
-    destine: 'New York',
-    value: 100,
-  },
-  {
-    destine: 'London',
-    value: 50,
-  },
-  {
-    destine: 'Peru',
-    value: 50,
-  },
-  {
-    destine: 'Tokyo',
-    value: 100,
-  },
-  {
-    destine: 'Sydney',
-    value: 60,
-  },
-  {
-    destine: 'Hong Kong',
-    value: 80,
-  },
-]
-
-const DestinationsCharts = () => {
+type Props = {
+  data: TDestination[]
+}
+const DestinationsCharts = ({ data }: Props) => {
   return (
     <Box
       sx={{
@@ -42,10 +19,10 @@ const DestinationsCharts = () => {
         justifyContent: 'space-around',
       }}
     >
-      {charts.map((item, index) => (
-        <Box key={item.destine}>
+      {data.map((item, index) => (
+        <Box key={item.name}>
           <Typography component="div" variant="subtitle1">
-            {item.destine}
+            {item.name}
           </Typography>
 
           <LinearProgress

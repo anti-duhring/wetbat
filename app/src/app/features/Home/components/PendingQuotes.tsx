@@ -9,6 +9,7 @@ import {
   TableCell,
   TableBody,
 } from '@mui/material'
+import ReplayIcon from '@mui/icons-material/Replay'
 
 const rows = [
   {
@@ -48,21 +49,24 @@ const PendingQuotes = () => {
     <Widget
       title="Pending quotes"
       Icon={HistoryIcon}
-      actionButtons={
+      actionButtons={[
+        <IconButton>
+          <ReplayIcon />
+        </IconButton>,
         <IconButton>
           <FullscreenIcon />
-        </IconButton>
-      }
+        </IconButton>,
+      ]}
       contentSx={{ padding: 0 }}
       sx={{ flex: 1 }}
     >
-      <Table aria-label="pending quotese" sx={{}}>
+      <Table aria-label="pending quotes" sx={{}}>
         <TableHead>
           <TableRow>
-            <TableCell align="right">ID #</TableCell>
-            <TableCell align="right">NAME</TableCell>
-            <TableCell align="right">DESTINATION</TableCell>
-            <TableCell align="right">PRICE</TableCell>
+            <TableCell>ID #</TableCell>
+            <TableCell>NAME</TableCell>
+            <TableCell>DESTINATION</TableCell>
+            <TableCell>PRICE</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

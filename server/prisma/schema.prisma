@@ -20,8 +20,8 @@ model Quote {
   transportation        String
   price                 Int
   status                String
-  contactId             String
-  contact               Contact     @relation(fields: [contactId], references: [id])
+  contactEmail          String
+  contact               Contact     @relation(fields: [contactEmail], references: [email])
   created_at            DateTime    @default(now())
   updated_at            DateTime    @updatedAt
 

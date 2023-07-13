@@ -8,7 +8,7 @@ import {
   Marker,
   ZoomableGroup,
 } from 'react-simple-maps'
-import { GEOGRAPHY_URL } from '../utils/destinationsMap'
+import { GEOGRAPHY_URL, TDestination } from '../utils/destinationsMap'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 
@@ -17,19 +17,11 @@ type TPosition = {
   zoom: number
 }
 
-const markers = [
-  {
-    name: 'New York',
-    coordinates: [-73.935242, 40.73061],
-  },
-  { name: 'London', coordinates: [-0.118092, 51.509865] },
-  { name: 'Peru', coordinates: [-77.042793, -12.046374] },
-  { name: 'Tokyo', coordinates: [139.817413, 35.672855] },
-  { name: 'Sydney', coordinates: [151.208755, -33.865143] },
-  { name: 'Hong Kong', coordinates: [114.177216, 22.302711] },
-]
+type Props = {
+  data: TDestination[]
+}
 
-const DestinationsMap = () => {
+const DestinationsMap = ({ data }: Props) => {
   const [position, setPosition] = useState<TPosition>({
     coordinates: [0, 0],
     zoom: 1,
@@ -49,8 +41,15 @@ const DestinationsMap = () => {
   const handleMoveEnd = (position: TPosition) => setPosition(position)
 
   return (
-    <Box sx={{ flex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-      <ComposableMap projection="geoEquirectangular" height={500}>
+    <Box
+      sx={{
+        flex: 3,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
+      <ComposableMap projection="geoEquirectangular">
         <ZoomableGroup
           zoom={position.zoom}
           center={position.coordinates}
@@ -76,8 +75,8 @@ const DestinationsMap = () => {
               ))
             }
           </Geographies>
-          {markers.map(({ name, coordinates }) => (
-            <Marker key={name} coordinates={coordinates as [number, number]}>
+          {data.map(({ name, coordinates }) => (
+            <Marker key={name} coordinates={coordinates}>
               <g
                 fill="none"
                 stroke={theme.palette.darkRed}

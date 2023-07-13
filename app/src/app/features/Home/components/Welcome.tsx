@@ -26,7 +26,7 @@ const Welcome = () => {
     >
       <Box sx={{ flex: 1 }}>
         <Typography variant="h3">Welcome to your dashboard</Typography>
-        <Typography variant="body2">
+        <Typography variant="body1">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut
           dolor a arcu semper consequat sit amet eu felis. Aliquam blandit
           euismod urna vel pulvinar. Cras purus enim, fermentum sit amet sem ut,
