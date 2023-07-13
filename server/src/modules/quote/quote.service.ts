@@ -1,18 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { QuoteDTO } from './quote.dto';
-import { PrismaService } from '../prisma/prisma.service';
-import { QuoteStatus, QuoteUpdateDTO } from './quote.types';
-import {
-  EntityNotFoundException,
-  InvalidDataException,
-} from '../../common/exceptions';
+
 import { QuoteErrorMessages } from '../../common/errorMessages';
+import { EntityNotFoundException, InvalidDataException } from '../../common/exceptions';
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateQuoteDTO, UpdateQuoteDTO } from './quote.dto';
+import { QuoteStatus } from './quote.types';
 
 @Injectable()
 export class QuoteService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: QuoteDTO) {
+  async create(data: CreateQuoteDTO) {
     const { destinationDate, departureDate } = data;
 
     this.validateDestinationAndDepartureDate(destinationDate, departureDate);
@@ -28,7 +26,7 @@ export class QuoteService {
     return quotes;
   }
 
-  async update(id: string, data: QuoteUpdateDTO) {
+  async update(id: string, data: UpdateQuoteDTO) {
     const { destinationDate, departureDate } = data;
 
     this.validateDestinationAndDepartureDate(destinationDate, departureDate);

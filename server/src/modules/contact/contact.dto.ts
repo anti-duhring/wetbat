@@ -78,5 +78,5 @@ export class ContactDTO {
 export class CreateContactDTO extends OmitType(ContactDTO, ['id', 'createdAt', 'updatedAt'])  {
 }
 
-export class UpdateContactDTO extends PartialType(OmitType(ContactDTO, ['id', 'createdAt', 'updatedAt']))  {
+export class UpdateContactDTO extends PartialType(CreateContactDTO)  {
 }

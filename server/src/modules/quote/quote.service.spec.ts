@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { QuoteService } from './quote.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { QuoteDTO } from './quote.dto';
+import { CreateQuoteDTO, QuoteDTO } from './quote.dto';
 import { QuoteStatus } from './quote.types';
 import * as Factory from 'factory.ts';
 import { faker } from '@faker-js/faker';
@@ -14,7 +14,7 @@ describe('Quotes Service', () => {
   let quoteService: QuoteService;
   let prismaService: PrismaService;
 
-  const quoteFactory = Factory.Sync.makeFactory<QuoteDTO>({
+  const quoteFactory = Factory.Sync.makeFactory<Partial<QuoteDTO>>({
     contactEmail: Factory.each(() => faker.internet.email()),
     departureDate: Factory.each(() => faker.date.soon()),
     departureLocation: Factory.each(() => faker.location.city()),
@@ -65,7 +65,7 @@ describe('Quotes Service', () => {
 
   describe('Create', () => {
     it('Should create a quote', async () => {
-      const newQuoteData = quoteFactory.build();
+      const newQuoteData = quoteFactory.build() as CreateQuoteDTO;
 
       const result = await quoteService.create(newQuoteData);
 
@@ -77,7 +77,7 @@ describe('Quotes Service', () => {
       const newQuoteData = quoteFactory.build({
         destinationDate: faker.date.soon(),
         departureDate: faker.date.future(),
-      });
+      }) as CreateQuoteDTO;
 
       await expect(quoteService.create(newQuoteData)).rejects.toThrowError(
         InvalidDataException,
@@ -87,7 +87,7 @@ describe('Quotes Service', () => {
     it('Should throw an error if departure date has already passed', async () => {
       const newQuoteData = quoteFactory.build({
         departureDate: faker.date.past(),
-      });
+      }) as CreateQuoteDTO;
 
       await expect(quoteService.create(newQuoteData)).rejects.toThrowError(
         InvalidDataException,
@@ -97,7 +97,7 @@ describe('Quotes Service', () => {
     it('Should throw an error if destination date has already passed', async () => {
       const newQuoteData = quoteFactory.build({
         destinationDate: faker.date.past(),
-      });
+      }) as CreateQuoteDTO;
 
       await expect(quoteService.create(newQuoteData)).rejects.toThrowError(
         InvalidDataException,

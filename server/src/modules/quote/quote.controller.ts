@@ -8,15 +8,20 @@ import {
   Param,
 } from '@nestjs/common';
 import { QuoteService } from './quote.service';
-import { QuoteDTO } from './quote.dto';
+import { CreateQuoteDTO, QuoteDTO, UpdateQuoteDTO } from './quote.dto';
 import { QuoteUpdateDTO } from './quote.types';
+import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { faker } from '@faker-js/faker';
 
+@ApiTags('Quote')
 @Controller('quote')
 export class QuoteController {
   constructor(private readonly quoteService: QuoteService) {}
 
   @Post()
-  async createQuote(@Body() data: QuoteDTO) {
+  @ApiOperation({ summary: 'Create a new quote' })
+  @ApiBody({ type: CreateQuoteDTO })
+  async createQuote(@Body() data: CreateQuoteDTO) {
     try {
       return this.quoteService.create(data);
     } catch (err) {
@@ -25,6 +30,7 @@ export class QuoteController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get all quotes' })
   async getQuotes() {
     try {
       return this.quoteService.findAll();
@@ -34,7 +40,10 @@ export class QuoteController {
   }
 
   @Put(':id')
-  async updateQuote(@Param('id') id: string, @Body() data: QuoteUpdateDTO) {
+  @ApiOperation({ summary: 'Update an existent quote' })
+  @ApiParam({ name: 'id', example: faker.string.uuid(), description: 'Quote ID' })
+  @ApiBody({ type: UpdateQuoteDTO  })
+  async updateQuote(@Param('id') id: string, @Body() data: UpdateQuoteDTO) {
     try {
       return this.quoteService.update(id, data);
     } catch (err) {
@@ -43,6 +52,8 @@ export class QuoteController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete an existent quote' })
+  @ApiParam({ name: 'id', example: faker.string.uuid(), description: 'Quote ID'  })
   async deleteQuote(@Param('id') id: string) {
     try {
       return this.quoteService.delete(id);
