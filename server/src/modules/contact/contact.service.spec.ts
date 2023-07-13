@@ -7,14 +7,14 @@ import {
   InvalidDataException,
 } from '../../common/exceptions';
 import { PrismaService } from '../prisma/prisma.service';
-import { ContactDTO } from './contact.dto';
+import { ContactDTO, CreateContactDTO } from './contact.dto';
 import { ContactService } from './contact.service';
 
 describe('Contact Service', () => {
   let contactService: ContactService;
   let prismaService: PrismaService;
 
-  const contactFactory = Factory.Sync.makeFactory<ContactDTO>({
+  const contactFactory = Factory.Sync.makeFactory<Partial<ContactDTO>>({
     email: Factory.each(() => faker.internet.email()),
     firstName: Factory.each(() => faker.person.firstName()),
     lastName: Factory.each(() => faker.person.lastName()),
@@ -62,7 +62,7 @@ describe('Contact Service', () => {
 
       prismaService.contact.findUnique = jest.fn().mockResolvedValue(null);
 
-      const result = await contactService.create(newContact);
+      const result = await contactService.create(newContact as CreateContactDTO);
 
       expect(prismaService.contact.create).toHaveBeenCalledTimes(1);
       expect(result).toEqual({ ...newContact, id: expect.any(String) });
@@ -75,7 +75,7 @@ describe('Contact Service', () => {
         .fn()
         .mockResolvedValue(contactFactory.build({ email }));
 
-      await expect(contactService.create(newContact)).rejects.toThrow(
+      await expect(contactService.create(newContact as CreateContactDTO)).rejects.toThrow(
         InvalidDataException,
       );
       expect(prismaService.contact.create).toHaveBeenCalledTimes(0);
@@ -88,7 +88,7 @@ describe('Contact Service', () => {
         .fn()
         .mockResolvedValue(contactFactory.build({ phone }));
 
-      await expect(contactService.create(newContact)).rejects.toThrow(
+      await expect(contactService.create(newContact as CreateContactDTO)).rejects.toThrow(
         InvalidDataException,
       );
       expect(prismaService.contact.create).toHaveBeenCalledTimes(0);
