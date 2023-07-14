@@ -117,8 +117,8 @@ export class QuoteDTO {
   updatedAt: Date;
 }
 
-export class CreateQuoteDTO extends OmitType(QuoteDTO, ['id', 'createdAt', 'updatedAt'])  {
+export class CreateQuoteDTO extends OmitType(QuoteDTO, ['id', 'status', 'createdAt', 'updatedAt'])  {
 }
 
-export class UpdateQuoteDTO extends PartialType(OmitType(QuoteDTO, ['id', 'status', 'createdAt', 'updatedAt']))  {
+export class UpdateQuoteDTO extends PartialType(CreateQuoteDTO)  {
 }

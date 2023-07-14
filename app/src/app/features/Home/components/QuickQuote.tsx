@@ -3,6 +3,7 @@
 import FastForwardOutlinedIcon from '@mui/icons-material/FastForwardOutlined'
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import {
+  Alert,
   Box,
   Button,
   Dialog,
@@ -11,6 +12,7 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
+  Snackbar,
   TextField,
 } from '@mui/material'
 import { DateField, LocalizationProvider } from '@mui/x-date-pickers'
@@ -22,6 +24,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import QuoteForm from './QuoteForm'
 import Widget from './Widget'
 import { quoteSchema } from '../utils/formValidations'
+import { useCreateQuote, useNotification } from '@/app/core'
 
 const ContactForm = () => {
   return (
@@ -46,22 +49,34 @@ const ContactForm = () => {
 
 const QuickQuote = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const { NotificationComponent, openNotification, closeNotification } = useNotification()
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
   } = useForm({ resolver: yupResolver(quoteSchema) })
+  const { mutate, isLoading } = useCreateQuote({
+    onSuccess() {
+      openNotification('Quote created successfully', 'success')
+    },
+    onError(error) {
+      openNotification((error.response?.data as any).message, 'error')
+    },
+  })
 
-  const onSubmit = (data: any) => console.log(data)
+  const onSubmit = () => {
+    if (Object.keys(errors).length) {
+      openNotification((errors as any)[Object.keys(errors)[0]]?.message, 'error')
+      return
+    }
 
-  const handleDialogOpen = () => {
-    setIsDialogOpen(true)
+    closeNotification()
+    handleSubmit((data: any) => mutate(data))()
   }
 
-  const handleDialogClose = () => {
-    setIsDialogOpen(false)
-  }
+  const handleDialogClose = () => setIsDialogOpen(false)
+
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -80,12 +95,13 @@ const QuickQuote = () => {
           variant="contained"
           color="secondary"
           size="large"
+          type="submit"
           disableElevation
           sx={{
             color: (theme) => theme.palette.common.white,
             borderRadius: 20,
           }}
-          onClick={handleSubmit(onSubmit)}
+          onClick={onSubmit}
         >
           Create a quote
         </Button>
@@ -94,6 +110,7 @@ const QuickQuote = () => {
         isOpen={isDialogOpen}
         handleClose={handleDialogClose}
       />
+      <NotificationComponent />
     </LocalizationProvider>
   )
 }

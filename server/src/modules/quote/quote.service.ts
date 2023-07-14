@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { QuoteErrorMessages } from '../../common/errorMessages';
 import { EntityNotFoundException, InvalidDataException } from '../../common/exceptions';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateQuoteDTO, UpdateQuoteDTO } from './quote.dto';
+import { CreateQuoteDTO, QuoteDTO, UpdateQuoteDTO } from './quote.dto';
 import { QuoteStatus } from './quote.types';
 
 @Injectable()
@@ -17,8 +17,7 @@ export class QuoteService {
     await this.validateIfContactExists(contactEmail);
     await this.validateIfAirpotsExists(departureLocationName, destinationLocationName)
 
-    data.status = QuoteStatus.PENDING;
-    const quote = await this.prisma.quote.create({ data });
+    const quote = await this.prisma.quote.create({ data: {...data, status: QuoteStatus.PENDING} });
 
     return quote;
   }
