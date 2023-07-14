@@ -6,7 +6,8 @@ import {
   Min,
   IsPositive,
   IsUUID,
-  IsEmail
+  IsEmail,
+  IsDateString
 } from 'class-validator';
 import { QuoteStatus } from './quote.types';
 import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
@@ -42,7 +43,7 @@ export class QuoteDTO {
     description: 'Departure date of the trip',
     example: faker.date.soon(),
   })
-  @IsDate()
+  @IsDateString()
   @IsNotEmpty()
   departureDate: Date;
 
@@ -50,7 +51,7 @@ export class QuoteDTO {
     description: 'Destination date of the trip',
     example: faker.date.future(),
   })
-  @IsDate()
+  @IsDateString()
   @IsNotEmpty()
   destinationDate: Date;
 

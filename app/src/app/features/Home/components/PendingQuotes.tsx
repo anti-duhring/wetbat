@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Widget from './Widget'
 import HistoryIcon from '@mui/icons-material/History'
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
@@ -10,50 +11,21 @@ import {
   TableBody,
 } from '@mui/material'
 import ReplayIcon from '@mui/icons-material/Replay'
+import { useQuotes } from '@/app/core'
 
-const rows = [
-  {
-    id: 1,
-    name: 'Frozen yoghurt',
-    destination: 'New York',
-    price: '$24.99',
-  },
-  {
-    id: 2,
-    name: 'Ice cream sandwich',
-    destination: 'Ecuador',
-    price: '$4.99',
-  },
-
-  {
-    id: 3,
-    name: 'Eclair',
-    destination: 'Costa Rica',
-    price: '$1.99',
-  },
-  {
-    id: 4,
-    name: 'Cupcake',
-    destination: 'Germany',
-    price: '$1.99',
-  },
-  {
-    id: 5,
-    name: 'Gingerbread',
-    destination: 'France',
-    price: '$1.99',
-  },
-]
 const PendingQuotes = () => {
+  const { data, isLoading, isFetching, refetch } = useQuotes()
+  const currencyFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'  })
+
   return (
     <Widget
       title="Pending quotes"
       Icon={HistoryIcon}
       actionButtons={[
-        <IconButton>
+        <IconButton key={ReplayIcon.name} onClick={() => refetch()}>
           <ReplayIcon />
         </IconButton>,
-        <IconButton>
+        <IconButton key={FullscreenIcon.name}>
           <FullscreenIcon />
         </IconButton>,
       ]}
@@ -63,22 +35,20 @@ const PendingQuotes = () => {
       <Table aria-label="pending quotes" sx={{}}>
         <TableHead>
           <TableRow>
-            <TableCell>ID #</TableCell>
             <TableCell>NAME</TableCell>
             <TableCell>DESTINATION</TableCell>
             <TableCell>PRICE</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data?.map(({ contact, ...quote }) => (
             <TableRow
-              key={row.name}
+              key={quote.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell>{row.id}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.destination}</TableCell>
-              <TableCell>{row.price}</TableCell>
+              <TableCell>{contact?.firstName} {contact?.lastName}</TableCell>
+              <TableCell>{quote.destinationLocation}</TableCell>
+              <TableCell>{currencyFormatter.format(quote.price)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

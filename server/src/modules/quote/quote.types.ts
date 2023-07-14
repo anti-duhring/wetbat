@@ -1,6 +1,3 @@
-import { QuoteDTO } from './quote.dto';
-
-export type QuoteUpdateDTO = Partial<Omit<QuoteDTO, 'id'>>;
 
 export enum QuoteStatus {
   PENDING = 'PENDING', // When the quote is created but the trip does not happened yet

@@ -11,9 +11,10 @@ export class QuoteService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateQuoteDTO) {
-    const { destinationDate, departureDate } = data;
+    const { destinationDate, departureDate, contactEmail } = data;
 
     this.validateDestinationAndDepartureDate(destinationDate, departureDate);
+    await this.validateIfContactExists(contactEmail);
 
     data.status = QuoteStatus.PENDING;
     const quote = await this.prisma.quote.create({ data });
@@ -22,7 +23,7 @@ export class QuoteService {
   }
 
   async findAll() {
-    const quotes = await this.prisma.quote.findMany();
+    const quotes = await this.prisma.quote.findMany({ include: { contact: true } });
     return quotes;
   }
 
@@ -51,9 +52,20 @@ export class QuoteService {
     if (!quoteExists) {
       throw new EntityNotFoundException('Quote');
     }
-    return await this.prisma.quote.delete({
+    await this.prisma.quote.delete({
       where: { id },
     });
+  }
+
+  async validateIfContactExists(contactEmail: string) {
+    const contactExists = await this.prisma.contact.findUnique({
+      where: { email: contactEmail },
+    });
+
+    if (!contactExists) {
+      throw new EntityNotFoundException('Contact');
+    }
+  
   }
 
   validateDestinationAndDepartureDate(

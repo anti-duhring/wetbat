@@ -14,6 +14,7 @@ import { ReactNode } from 'react'
 
 import theme from './core/theme'
 import { DrawerOrSidebarComponent } from './features/AppBar'
+import { Provider } from './core'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,18 +33,20 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <body className={inter.className}>
-          <Box
-            sx={{
-              display: 'flex',
-              backgroundColor: (theme) => theme.palette.neutral.light,
-            }}
-          >
-            <DrawerOrSidebarComponent />
-            <Box component="main">
-              <DrawerHeader />
-              {children}
+          <Provider>
+            <Box
+              sx={{
+                display: 'flex',
+                backgroundColor: (theme) => theme.palette.neutral.light,
+              }}
+            >
+              <DrawerOrSidebarComponent />
+              <Box component="main">
+                <DrawerHeader />
+                {children}
+              </Box>
             </Box>
-          </Box>
+          </Provider>
         </body>
       </ThemeProvider>
     </html>

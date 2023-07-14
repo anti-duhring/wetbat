@@ -1,17 +1,9 @@
-import {
-  Body,
-  Controller,
-  Post,
-  Get,
-  Put,
-  Delete,
-  Param,
-} from '@nestjs/common';
-import { QuoteService } from './quote.service';
-import { CreateQuoteDTO, QuoteDTO, UpdateQuoteDTO } from './quote.dto';
-import { QuoteUpdateDTO } from './quote.types';
-import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { faker } from '@faker-js/faker';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+
+import { CreateQuoteDTO, UpdateQuoteDTO } from './quote.dto';
+import { QuoteService } from './quote.service';
 
 @ApiTags('Quote')
 @Controller('quote')
