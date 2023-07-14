@@ -15,7 +15,10 @@ import { useQuotes } from '@/app/core'
 
 const PendingQuotes = () => {
   const { data, isLoading, isFetching, refetch } = useQuotes()
-  const currencyFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'  })
+  const currencyFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  })
 
   return (
     <Widget
@@ -41,13 +44,15 @@ const PendingQuotes = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data?.map(({ contact, ...quote }) => (
+          {data?.map(({ contact, destinationLocation, ...quote }) => (
             <TableRow
               key={quote.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell>{contact?.firstName} {contact?.lastName}</TableCell>
-              <TableCell>{quote.destinationLocation}</TableCell>
+              <TableCell>
+                {contact?.firstName} {contact?.lastName}
+              </TableCell>
+              <TableCell>{destinationLocation.name}</TableCell>
               <TableCell>{currencyFormatter.format(quote.price)}</TableCell>
             </TableRow>
           ))}

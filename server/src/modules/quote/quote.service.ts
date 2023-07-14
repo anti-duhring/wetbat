@@ -11,10 +11,11 @@ export class QuoteService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateQuoteDTO) {
-    const { destinationDate, departureDate, contactEmail } = data;
+    const { destinationDate, departureDate, contactEmail, departureLocationName,destinationLocationName } = data;
 
     this.validateDestinationAndDepartureDate(destinationDate, departureDate);
     await this.validateIfContactExists(contactEmail);
+    await this.validateIfAirpotsExists(departureLocationName, destinationLocationName)
 
     data.status = QuoteStatus.PENDING;
     const quote = await this.prisma.quote.create({ data });
@@ -23,7 +24,7 @@ export class QuoteService {
   }
 
   async findAll() {
-    const quotes = await this.prisma.quote.findMany({ include: { contact: true } });
+    const quotes = await this.prisma.quote.findMany({ include: { contact: true, departureLocation: true, destinationLocation: true } });
     return quotes;
   }
 
@@ -65,6 +66,26 @@ export class QuoteService {
     if (!contactExists) {
       throw new EntityNotFoundException('Contact');
     }
+  
+  }
+
+  async validateIfAirpotsExists(departureLocationName: string, destinationLocationName: string) {
+    const departureLocationExists = await this.prisma.airport.findUnique({
+      where: { name: departureLocationName },
+    });
+
+    if (!departureLocationExists) {
+      throw new EntityNotFoundException('departure Airport');
+    }
+
+    const destinationLocationExists = await this.prisma.airport.findUnique({
+      where: { name: destinationLocationName },
+    });
+
+    if (!destinationLocationExists) {
+      throw new EntityNotFoundException('destination Airport');
+    }
+  
   
   }
 

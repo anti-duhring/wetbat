@@ -4,10 +4,9 @@ import {
   linearProgressClasses,
   Typography,
 } from '@mui/material'
-import { TDestination } from '../utils/destinationsMap'
 
 type Props = {
-  data: TDestination[]
+  data?: TAirport[]
 }
 const DestinationsCharts = ({ data }: Props) => {
   return (
@@ -19,7 +18,7 @@ const DestinationsCharts = ({ data }: Props) => {
         justifyContent: 'space-around',
       }}
     >
-      {data.map((item, index) => (
+      {data?.map(({ quotesDestination, ...item }, index) => (
         <Box key={item.name}>
           <Typography component="div" variant="subtitle1">
             {item.name}
@@ -27,7 +26,7 @@ const DestinationsCharts = ({ data }: Props) => {
 
           <LinearProgress
             variant="determinate"
-            value={item.value}
+            value={(quotesDestination?.length ?? 0) * 10}
             sx={{
               height: 10,
               borderRadius: 5,

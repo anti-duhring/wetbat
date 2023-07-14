@@ -18,7 +18,7 @@ type TPosition = {
 }
 
 type Props = {
-  data: TDestination[]
+  data?: TAirport[]
 }
 
 const DestinationsMap = ({ data }: Props) => {
@@ -75,8 +75,8 @@ const DestinationsMap = ({ data }: Props) => {
               ))
             }
           </Geographies>
-          {data.map(({ name, coordinates }) => (
-            <Marker key={name} coordinates={coordinates}>
+          {data?.map(({ name, lon, lat }) => (
+            <Marker key={name} coordinates={[Number(lon), Number(lat)]}>
               <g
                 fill="none"
                 stroke={theme.palette.darkRed}

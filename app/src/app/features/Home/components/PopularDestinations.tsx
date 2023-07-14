@@ -7,8 +7,10 @@ import ModeOfTravelIcon from '@mui/icons-material/ModeOfTravel'
 import { Divider, useMediaQuery, IconButton } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { popularDestinations } from '../utils/destinationsMap'
+import { usePopularDestinations } from '@/app/core/hooks/usePopularDestinations'
 
 const PopularDestinations = () => {
+  const { data, isLoading, isFetching, refetch } = usePopularDestinations()
   const isMediaQueryAboveSm = useMediaQuery(theme.breakpoints.up('sm'), {
     defaultMatches: true,
   })
@@ -28,9 +30,9 @@ const PopularDestinations = () => {
       }}
       sx={{ flex: 3 }}
     >
-      <DestinationsCharts data={popularDestinations} />
+      <DestinationsCharts data={data} />
       <Divider orientation="vertical" flexItem />
-      {isMediaQueryAboveSm && <DestinationsMap data={popularDestinations} />}
+      {isMediaQueryAboveSm && <DestinationsMap data={data} />}
       <DestinationTicket />
     </Widget>
   )

@@ -1,47 +1,27 @@
 'use client'
 
-import { useState } from 'react'
+import FastForwardOutlinedIcon from '@mui/icons-material/FastForwardOutlined'
+import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import {
-  IconButton,
   Box,
-  TextField,
   Button,
   Dialog,
-  DialogTitle,
+  DialogActions,
   DialogContent,
   DialogContentText,
-  DialogActions,
+  DialogTitle,
+  IconButton,
+  TextField,
 } from '@mui/material'
-import FullscreenIcon from '@mui/icons-material/Fullscreen'
-import FastForwardOutlinedIcon from '@mui/icons-material/FastForwardOutlined'
-import { LocalizationProvider } from '@mui/x-date-pickers'
+import { DateField, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { DateField } from '@mui/x-date-pickers'
-import Widget from './Widget'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
-const QuoteForm = () => {
-  return (
-    <Box
-      sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
-    >
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <TextField label="FROM" variant="filled" fullWidth />
-        <TextField label="DESTINATION" variant="filled" fullWidth />
-      </Box>
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <DateField label="DEPART DATE" variant="filled" fullWidth />
-        <DateField label="RETURE DATE" variant="filled" fullWidth />
-      </Box>
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <TextField label="PEOPLE" variant="filled" fullWidth />
-        <TextField label="TRANSPORTATION" variant="filled" fullWidth />
-      </Box>
-      <Box>
-        <TextField label="EMAIL" fullWidth variant="filled" />
-      </Box>
-    </Box>
-  )
-}
+import QuoteForm from './QuoteForm'
+import Widget from './Widget'
+import { quoteSchema } from '../utils/formValidations'
 
 const ContactForm = () => {
   return (
@@ -66,6 +46,14 @@ const ContactForm = () => {
 
 const QuickQuote = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(quoteSchema) })
+
+  const onSubmit = (data: any) => console.log(data)
 
   const handleDialogOpen = () => {
     setIsDialogOpen(true)
@@ -87,7 +75,7 @@ const QuickQuote = () => {
         }
         sx={{ flex: 1, flexShrink: 2 }}
       >
-        <QuoteForm />
+        <QuoteForm errors={errors} register={register} control={control} />
         <Button
           variant="contained"
           color="secondary"
@@ -97,7 +85,7 @@ const QuickQuote = () => {
             color: (theme) => theme.palette.common.white,
             borderRadius: 20,
           }}
-          onClick={handleDialogOpen}
+          onClick={handleSubmit(onSubmit)}
         >
           Create a quote
         </Button>

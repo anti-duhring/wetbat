@@ -24,20 +24,20 @@ export class QuoteDTO {
   id: string;
 
   @ApiProperty({
-    description: 'Departure location of the trip',
+    description: 'The name of the airport that is going to be the departure location',
     example: faker.location.city(),
   })
   @IsString()
   @IsNotEmpty()
-  departureLocation: string;
+  departureLocationName: string;
 
   @ApiProperty({
-    description: 'Destination location of the trip',
+    description: 'The name of the airport that is going to be the destination location',
     example: faker.location.city(),
   })
   @IsString()
   @IsNotEmpty()
-  destinationLocation: string;
+  destinationLocationName: string;
 
   @ApiProperty({
     description: 'Departure date of the trip',

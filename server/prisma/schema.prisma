@@ -11,19 +11,21 @@ datasource db {
 }
 
 model Quote {
-  id                    String      @id @default(uuid())
-  departureLocation     String      @map("departure_location")
-  destinationLocation   String      @map("destination_location")
-  departureDate         DateTime    @map("departure_date")
-  destinationDate       DateTime    @map("destination_date")
-  travellersAmount      Int         @default(1) @map("travellers_amount")
-  transportation        String
-  price                 Int
-  status                String
-  contactEmail          String      @map("contact_email")
-  contact               Contact     @relation(fields: [contactEmail], references: [email])
-  createdAt             DateTime    @default(now()) @map("created_at")
-  updatedAt             DateTime    @updatedAt @map("updated_at")
+  id                      String      @id @default(uuid())
+  departureLocationName   String
+  departureLocation       Airport     @relation(fields: [departureLocationName], references: [name], name: "quote_departure_local")
+  destinationLocationName String
+  destinationLocation     Airport     @relation(fields: [destinationLocationName], references: [name], name: "quote_destination_local")
+  departureDate           DateTime    @map("departure_date")
+  destinationDate         DateTime    @map("destination_date")
+  travellersAmount        Int         @default(1) @map("travellers_amount")
+  transportation          String
+  price                   Int
+  status                  String
+  contactEmail            String      @map("contact_email")
+  contact                 Contact     @relation(fields: [contactEmail], references: [email])
+  createdAt               DateTime    @default(now()) @map("created_at")
+  updatedAt               DateTime    @updatedAt @map("updated_at")
 
   @@map("quotes")
 }
@@ -39,4 +41,21 @@ model Contact {
   updatedAt     DateTime  @updatedAt          @map("updated_at")
 
   @@map("contacts")
+}
+
+model Airport {
+  id                  Int       @id()                 @default(autoincrement())
+  lat                 String
+  lon                 String
+  name                String    @unique()
+  city                String
+  state               String
+  country             String
+  tz                  String
+  quotesDeparture     Quote[]   @relation("quote_departure_local")
+  quotesDestination   Quote[]   @relation("quote_destination_local")
+  createdAt           DateTime  @default(now())     @map("created_at")
+  updatedAt           DateTime  @updatedAt          @map("updated_at")
+
+  @@map("airports")
 }
