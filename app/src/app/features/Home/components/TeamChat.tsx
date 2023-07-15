@@ -1,3 +1,5 @@
+'use client'
+
 import Widget from './Widget'
 import {
   IconButton,
@@ -47,12 +49,12 @@ const items: TTeamItem[] = [
   },
   {
     name: 'William Butcher',
-    avatar: 'https://mui.com/static/images/avatar/11.jpg',
+    avatar: 'https://mui.com/static/images/avatar/5.jpg',
     role: 'Customer service',
     avaliability: 'avaliable',
   },
   {
-    name: 'Foo Bar',
+    name: 'Sansa Stark',
     avatar: 'https://mui.com/static/images/avatar/4.jpg',
     role: 'Customer service',
     avaliability: 'avaliable',

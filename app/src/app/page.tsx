@@ -1,5 +1,8 @@
 import { Metadata } from 'next'
-import { Dashboard, Welcome } from './features/Home'
+import { Dashboard } from './features/Home'
+
+// Reference: https://nextjs.org/docs/messages/react-hydration-error
+// const Dashboard = dynamic(() => import('./features/Home/components/Dashboard'), { ssr: false })
 
 export const metadata: Metadata = {
   title: 'WetBat travel',

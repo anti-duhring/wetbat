@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import theme from '@/app/core/theme'
 import { Box, IconButton } from '@mui/material'

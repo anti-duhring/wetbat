@@ -1,3 +1,5 @@
+'use client'
+
 import { IconButton, Box } from '@mui/material'
 import Widget from './Widget'
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt'

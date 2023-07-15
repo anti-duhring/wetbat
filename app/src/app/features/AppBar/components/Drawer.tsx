@@ -1,3 +1,5 @@
+'use client'
+
 import { Drawer as DrawerEl } from '@mui/material'
 import { Divider, List, styled, Typography } from '@mui/material'
 

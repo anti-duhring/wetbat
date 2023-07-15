@@ -23,7 +23,7 @@ export class QuoteService {
   }
 
   async findAll() {
-    const quotes = await this.prisma.quote.findMany({ include: { contact: true, departureLocation: true, destinationLocation: true } });
+    const quotes = await this.prisma.quote.findMany({ include: { contact: true, departureLocation: true, destinationLocation: true }, orderBy: { createdAt: 'desc'  } });
     return quotes;
   }
 

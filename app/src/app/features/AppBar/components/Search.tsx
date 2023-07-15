@@ -1,3 +1,5 @@
+'use client'
+
 import { InputBase, styled } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import theme from '../../../core/theme'

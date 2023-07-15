@@ -1,13 +1,15 @@
+'use client'
+
+import { usePopularDestinations } from '@/app/core/hooks/usePopularDestinations'
 import theme from '@/app/core/theme'
-import DestinationTicket from './DestinationTicket'
+import ModeOfTravelIcon from '@mui/icons-material/ModeOfTravel'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { Divider, IconButton, useMediaQuery } from '@mui/material'
+
 import DestinationsCharts from './DestinationsCharts'
 import DestinationsMap from './DestinationsMap'
+import DestinationTicket from './DestinationTicket'
 import Widget from './Widget'
-import ModeOfTravelIcon from '@mui/icons-material/ModeOfTravel'
-import { Divider, useMediaQuery, IconButton } from '@mui/material'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { popularDestinations } from '../utils/destinationsMap'
-import { usePopularDestinations } from '@/app/core/hooks/usePopularDestinations'
 
 const PopularDestinations = () => {
   const { data, isLoading, isFetching, refetch } = usePopularDestinations()

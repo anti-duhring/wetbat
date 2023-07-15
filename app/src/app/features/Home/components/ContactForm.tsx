@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, TextField } from '@mui/material'
 import { FieldErrors, UseFormRegister } from 'react-hook-form'
 

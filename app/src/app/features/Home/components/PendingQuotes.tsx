@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+'use client'
+
 import Widget from './Widget'
 import HistoryIcon from '@mui/icons-material/History'
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
@@ -25,10 +26,10 @@ const PendingQuotes = () => {
       title="Pending quotes"
       Icon={HistoryIcon}
       actionButtons={[
-        <IconButton key={ReplayIcon.name} onClick={() => refetch()}>
+        <IconButton key="1" onClick={() => refetch()}>
           <ReplayIcon />
         </IconButton>,
-        <IconButton key={FullscreenIcon.name}>
+        <IconButton key="2">
           <FullscreenIcon />
         </IconButton>,
       ]}

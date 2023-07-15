@@ -1,3 +1,5 @@
+'use client'
+
 import theme from '@/app/core/theme'
 import { Divider, List, styled, Typography } from '@mui/material'
 

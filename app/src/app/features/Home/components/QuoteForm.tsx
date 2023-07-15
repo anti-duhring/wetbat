@@ -1,4 +1,8 @@
-import { Box, TextField } from '@mui/material'
+'use client'
+
+import { useAutocompleteAirports } from '@/app/core'
+import { AutocompleteInput } from '@/app/core/components'
+import { Box, TextField, TextFieldProps } from '@mui/material'
 import { DateField } from '@mui/x-date-pickers'
 import {
   Control,
@@ -18,22 +22,22 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
     <Box
       sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
     >
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <TextField
-          {...register('departureLocationName')}
-          label="FROM"
-          variant="filled"
-          error={Boolean(errors.departureLocationName?.message)}
-          fullWidth
-        />
-        <TextField
-          {...register('destinationLocationName')}
-          label="DESTINATION"
-          variant="filled"
-          error={Boolean(errors.destinationLocationName?.message)}
-          fullWidth
-        />
-      </Box>
+      <AutocompleteInputAirport
+        inputProps={{
+          label: 'FROM',
+          variant: 'filled',
+          error: Boolean(errors.departureLocationName?.message),
+          ...register('departureLocationName'),
+        }}
+      />
+      <AutocompleteInputAirport
+        inputProps={{
+          label: 'DESTINATION',
+          variant: 'filled',
+          error: Boolean(errors.destinationLocationName?.message),
+          ...register('destinationLocationName'),
+        }}
+      />
       <Box sx={{ display: 'flex', gap: 2 }}>
         <Controller
           name="departureDate"
@@ -89,26 +93,63 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
           fullWidth
         />
       </Box>
-      <Box>
-        <TextField
-          {...register('price')}
-          label="PRICE $"
-          fullWidth
-          variant="filled"
-          type="number"
-          error={Boolean(errors.price?.message)}
-        />
-      </Box>
-      <Box>
-        <TextField
-          {...register('contactEmail')}
-          label="EMAIL"
-          fullWidth
-          variant="filled"
-          error={Boolean(errors.contactEmail?.message)}
-        />
-      </Box>
+      <TextField
+        {...register('price')}
+        label="PRICE $"
+        fullWidth
+        variant="filled"
+        type="number"
+        error={Boolean(errors.price?.message)}
+      />
+      <TextField
+        {...register('contactEmail')}
+        label="EMAIL"
+        fullWidth
+        variant="filled"
+        error={Boolean(errors.contactEmail?.message)}
+      />
     </Box>
+  )
+}
+
+type TAutocompleteInputProps = {
+  inputProps: TextFieldProps
+}
+
+const AutocompleteInputAirport = ({ inputProps }: TAutocompleteInputProps) => {
+  const { airports, isLoading, searchTerm, setSearchTerm } =
+    useAutocompleteAirports()
+
+  const onChange = (_: any, newValue: TAirport) => {
+    if (!newValue) {
+      setSearchTerm('')
+      return
+    }
+
+    setSearchTerm(newValue.name)
+  }
+  const onInputChange = (_: any, value: string) => {
+    setSearchTerm(value)
+  }
+
+  return (
+    <AutocompleteInput
+      inputProps={inputProps}
+      isLoading={isLoading}
+      options={airports}
+      value={searchTerm}
+      onChange={onChange}
+      onInputChange={onInputChange}
+      isOptionEqualToValue={(option: TAirport, value: string) =>
+        option.name.toLowerCase().includes(value.toLowerCase()) ||
+        option.city.toLowerCase().includes(value.toLowerCase()) ||
+        option.state.toLowerCase().includes(value.toLowerCase()) ||
+        option.country.toLowerCase().includes(value.toLowerCase())
+      }
+      getOptionLabel={(option: any) =>
+        typeof option === 'string' ? option : option.name
+      }
+    />
   )
 }
 

@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, useState } from 'react'
 import { useMediaQuery, Box, styled } from '@mui/material'
 import theme from '@/app/core/theme'

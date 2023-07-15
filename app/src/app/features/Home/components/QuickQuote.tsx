@@ -13,10 +13,9 @@ import {
 } from '@mui/material'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-
 import QuoteForm from './QuoteForm'
 import Widget from './Widget'
 import { contactSchema, quoteSchema } from '../utils/formValidations'

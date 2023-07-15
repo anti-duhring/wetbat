@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardHeader,
@@ -21,6 +23,7 @@ type Props = {
   }
   sx?: SxProps<Theme> | undefined
   contentSx?: SxProps<Theme> | undefined
+  transitionDelay?: `${number}ms` | `${number}s` | `${number}ms ${number}s`
 }
 
 const Widget = ({
@@ -28,11 +31,16 @@ const Widget = ({
   actionButtons,
   title,
   Icon,
+  transitionDelay,
   sx = {},
   contentSx = {},
 }: Props) => {
   return (
-    <Zoom in={true} timeout={700}>
+    <Zoom
+      in={true}
+      timeout={700}
+      style={{ transitionDelay: transitionDelay ?? '0s' }}
+    >
       <Card sx={{ minWidth: 300, ...sx }} elevation={1}>
         <CardHeader
           title={<Typography variant="h6">{title}</Typography>}

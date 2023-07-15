@@ -1,3 +1,5 @@
+'use client'
+
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material'
 import ViewQuiltIcon from '@mui/icons-material/ViewQuilt'
 import Search from './Search'

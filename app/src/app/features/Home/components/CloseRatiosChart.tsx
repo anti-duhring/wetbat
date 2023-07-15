@@ -1,3 +1,5 @@
+'use client'
+
 import Widget from './Widget'
 import { Doughnut } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, ChartData } from 'chart.js'

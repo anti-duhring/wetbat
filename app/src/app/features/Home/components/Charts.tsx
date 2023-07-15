@@ -1,3 +1,5 @@
+'use client'
+
 import { useMediaQuery, Box } from '@mui/material'
 import RevenueChart from './RevenueChart'
 import theme from '@/app/core/theme'
