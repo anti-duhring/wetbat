@@ -10,6 +10,7 @@ import DrawerAndSidebarItem from './DrawerAndSiderbarItem'
 const SidebarContainer = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.neutral.main,
   height: '100%',
+  position: 'fixed',
   minWidth: '200px',
 }))
 

@@ -5,6 +5,7 @@ import {
   ListItemAvatar,
   ListItemText,
   IconButton,
+  ListItemButton,
 } from '@mui/material'
 import Widget from './Widget'
 import MailOutlineIcon from '@mui/icons-material/MailOutline'
@@ -36,6 +37,18 @@ const items = [
     message: 'Hey! I want to place my package',
     hour: '14:00 PM',
   },
+  {
+    name: 'Magnus  Carlsen',
+    avatar: 'https://mui.com/static/images/avatar/5.jpg',
+    message: 'Hey! I want to place my package',
+    hour: '14:10 PM',
+  },
+  {
+    name: 'Larry Page',
+    avatar: 'https://mui.com/static/images/avatar/6.jpg',
+    message: 'Hey! I want to place my package',
+    hour: '14:20 PM',
+  },
 ]
 
 const NewLeads = () => {
@@ -45,10 +58,10 @@ const NewLeads = () => {
       Icon={MailOutlineIcon}
       contentSx={{ padding: 0 }}
       actionButtons={[
-        <IconButton>
+        <IconButton key="1">
           <ReplayIcon />
         </IconButton>,
-        <IconButton>
+        <IconButton key="2">
           <FullscreenIcon />
         </IconButton>,
       ]}
@@ -57,12 +70,14 @@ const NewLeads = () => {
       <List>
         {items.map((item) => {
           return (
-            <ListItem key={item.name}>
-              <ListItemAvatar>
-                <Avatar alt={item.name} src={item.avatar} />
-              </ListItemAvatar>
-              <ListItemText primary={item.name} secondary={item.message} />
-              <ListItemText secondary={item.hour} sx={{ marginLeft: 1 }} />
+            <ListItem key={item.name} disablePadding>
+              <ListItemButton>
+                <ListItemAvatar>
+                  <Avatar alt={item.name} src={item.avatar} />
+                </ListItemAvatar>
+                <ListItemText primary={item.name} secondary={item.message} />
+                <ListItemText secondary={item.hour} sx={{ marginLeft: 1 }} />
+              </ListItemButton>
             </ListItem>
           )
         })}

@@ -8,6 +8,7 @@ import {
   Avatar,
   Badge,
   styled,
+  ListItemButton,
 } from '@mui/material'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -22,7 +23,7 @@ type TTeamItem = {
 const items: TTeamItem[] = [
   {
     name: 'Jane Smith',
-    avatar: 'https://mui.com/static/images/avatar/1.jpg',
+    avatar: 'https://mui.com/static/images/avatar/7.jpg',
     role: 'Customer service',
     avaliability: 'avaliable',
   },
@@ -33,10 +34,22 @@ const items: TTeamItem[] = [
     avaliability: 'avaliable',
   },
   {
-    name: 'Alexa Johnson',
-    avatar: 'https://mui.com/static/images/avatar/3.jpg',
+    name: 'Alex Johnson',
+    avatar: 'https://mui.com/static/images/avatar/1.jpg',
     role: 'Customer service',
     avaliability: 'unavaliable',
+  },
+  {
+    name: 'Foo Bar',
+    avatar: 'https://mui.com/static/images/avatar/3.jpg',
+    role: 'Customer service',
+    avaliability: 'avaliable',
+  },
+  {
+    name: 'William Butcher',
+    avatar: 'https://mui.com/static/images/avatar/11.jpg',
+    role: 'Customer service',
+    avaliability: 'avaliable',
   },
   {
     name: 'Foo Bar',
@@ -92,27 +105,33 @@ const TeamChat = () => {
       <List>
         {items.map((item) => {
           return (
-            <ListItem key={item.name}>
-              <ListItemAvatar>
-                <StyledBadge
-                  overlap="rectangular"
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  variant="dot"
-                  color={
-                    item.avaliability === 'avaliable' ? 'success' : 'error'
-                  }
-                >
-                  <Avatar alt={item.name} src={item.avatar} variant="rounded" />
-                </StyledBadge>
-              </ListItemAvatar>
-              <ListItemText
-                primary={item.name}
-                secondary={item.role}
-                title={item.avaliability}
-              />
-              <IconButton color="secondary">
-                <ChatIcon />
-              </IconButton>
+            <ListItem key={item.name} disablePadding>
+              <ListItemButton>
+                <ListItemAvatar>
+                  <StyledBadge
+                    overlap="rectangular"
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    variant="dot"
+                    color={
+                      item.avaliability === 'avaliable' ? 'success' : 'error'
+                    }
+                  >
+                    <Avatar
+                      alt={item.name}
+                      src={item.avatar}
+                      variant="rounded"
+                    />
+                  </StyledBadge>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={item.name}
+                  secondary={item.role}
+                  title={item.avaliability}
+                />
+                <IconButton color="secondary">
+                  <ChatIcon />
+                </IconButton>
+              </ListItemButton>
             </ListItem>
           )
         })}

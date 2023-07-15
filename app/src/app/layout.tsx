@@ -27,6 +27,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
 }))
 
+const DrawerLeft = styled('div')(({ theme }) => ({
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}))
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
@@ -41,7 +46,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               }}
             >
               <DrawerOrSidebarComponent />
-              <Box component="main">
+              <Box component="main" sx={{ ml: { md: 30, lg: 30 } }}>
                 <DrawerHeader />
                 {children}
               </Box>
