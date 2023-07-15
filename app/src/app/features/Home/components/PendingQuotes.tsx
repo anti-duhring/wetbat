@@ -38,9 +38,9 @@ const PendingQuotes = () => {
       <Table aria-label="pending quotes" sx={{}}>
         <TableHead>
           <TableRow>
-            <TableCell>NAME</TableCell>
-            <TableCell>DESTINATION</TableCell>
-            <TableCell>PRICE</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }}>NAME</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }}>DESTINATION</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }}>PRICE</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

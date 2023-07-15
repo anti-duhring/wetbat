@@ -64,4 +64,15 @@ export class AirportController {
       console.error(err);
     }
   }
+
+  @Get('search/:text')
+  @ApiOperation({ summary: 'Search for airports by a given text. Returns the airport if it contains the given text in country, state, city or name property.' })
+  @ApiParam({ name: 'text', example: faker.location.city(), description: 'The text to be searched', required: true })
+  async findByText(@Param('text') text: string) {
+    try {
+      return this.airportService.findByText(text);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 }

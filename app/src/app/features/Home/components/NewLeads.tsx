@@ -75,7 +75,7 @@ const NewLeads = () => {
                 <ListItemAvatar>
                   <Avatar alt={item.name} src={item.avatar} />
                 </ListItemAvatar>
-                <ListItemText primary={item.name} secondary={item.message} />
+                <ListItemText primary={item.name} secondary={item.message} primaryTypographyProps={{ fontWeight: 'bold' }} />
                 <ListItemText secondary={item.hour} sx={{ marginLeft: 1 }} />
               </ListItemButton>
             </ListItem>

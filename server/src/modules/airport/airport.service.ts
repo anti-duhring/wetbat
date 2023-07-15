@@ -63,4 +63,21 @@ export class AirportService {
 
     return airportsThatAppearsMostOnDestinations
   }
+
+  async findByText(text: string, total: number = 5) {
+    const airports = await this.prisma.airport.findMany({
+      where: {
+        OR: [
+          { name: { contains: text } },
+          { city: { contains: text } },
+          { state: { contains: text } },
+          { country: { contains: text } },
+        ],
+      },
+      take: total
+    })
+
+    return airports;
+  
+  }
 }
