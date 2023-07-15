@@ -8,8 +8,8 @@ import {
 } from 'react-hook-form'
 
 type TQuoteFormProps = {
-  errors: FieldErrors<any>
-  register: UseFormRegister<any>
+  errors: FieldErrors<TCreateQuote>
+  register: UseFormRegister<TCreateQuote>
   control: Control<any, any>
 }
 

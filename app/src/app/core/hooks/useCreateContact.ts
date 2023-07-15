@@ -2,23 +2,23 @@ import { useMutation } from '@tanstack/react-query'
 import { axiosInstance } from '../axios'
 import { AxiosError, AxiosResponse } from 'axios'
 
-type TUseQuotesParams = {
+type TUseCreateContactParams = {
   onSuccess: (data: AxiosResponse) => void
   onError: (error: AxiosError) => void
   onSettled?: () => void
 }
 
-const createQuote = async (data: TCreateQuote) => {
-  const { data: response } = await axiosInstance.post('/quote', data)
+const createContact = async (data: TCreateContact) => {
+  const { data: response } = await axiosInstance.post('/contact', data)
   return response.data
 }
 
-export const useCreateQuote = ({
+export const useCreateContact = ({
   onSuccess,
   onError,
   onSettled,
-}: TUseQuotesParams) => {
-  const { mutate, isLoading } = useMutation(createQuote, {
+}: TUseCreateContactParams) => {
+  const { mutate, isLoading } = useMutation(createContact, {
     onSuccess: (data) => onSuccess(data),
     onError: (error) => onError(error as AxiosError),
     onSettled: () => (onSettled ? onSettled() : null),

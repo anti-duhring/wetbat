@@ -12,6 +12,19 @@ type TQuote = {
   contact?: TContact
 }
 
+type TCreateQuote = {
+  departureLocationName: string
+  destinationLocationName: string
+} & Pick<
+  TQuote,
+  | 'departureDate'
+  | 'destinationDate'
+  | 'travellersAmount'
+  | 'transportation'
+  | 'price'
+  | 'contactEmail'
+>
+
 enum QuoteStatus {
   PENDING = 'PENDING', // When the quote is created but the trip does not happened yet
   INPROGRESS = 'INPROGRESS', // When the trip is happening

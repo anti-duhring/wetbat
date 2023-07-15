@@ -7,6 +7,7 @@ import {
   Divider,
   SxProps,
   Theme,
+  Zoom,
 } from '@mui/material'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
 import { ReactNode } from 'react'
@@ -31,21 +32,28 @@ const Widget = ({
   contentSx = {},
 }: Props) => {
   return (
-    <Card sx={{ minWidth: 300, ...sx }} elevation={1}>
-      <CardHeader
-        title={<Typography variant="h6">{title}</Typography>}
-        action={actionButtons}
-        avatar={
-          <Icon sx={{ color: (theme) => theme.palette.secondary.main }} />
-        }
-      />
-      <Divider />
-      <CardContent
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, ...contentSx }}
-      >
-        {children}
-      </CardContent>
-    </Card>
+    <Zoom in={true} timeout={700}>
+      <Card sx={{ minWidth: 300, ...sx }} elevation={1}>
+        <CardHeader
+          title={<Typography variant="h6">{title}</Typography>}
+          action={actionButtons}
+          avatar={
+            <Icon sx={{ color: (theme) => theme.palette.secondary.main }} />
+          }
+        />
+        <Divider />
+        <CardContent
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            ...contentSx,
+          }}
+        >
+          {children}
+        </CardContent>
+      </Card>
+    </Zoom>
   )
 }
 

@@ -3,8 +3,6 @@
 import FastForwardOutlinedIcon from '@mui/icons-material/FastForwardOutlined'
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import {
-  Alert,
-  Box,
   Button,
   Dialog,
   DialogActions,
@@ -12,71 +10,74 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
-  Snackbar,
-  TextField,
 } from '@mui/material'
-import { DateField, LocalizationProvider } from '@mui/x-date-pickers'
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import QuoteForm from './QuoteForm'
 import Widget from './Widget'
-import { quoteSchema } from '../utils/formValidations'
-import { useCreateQuote, useNotification } from '@/app/core'
-
-const ContactForm = () => {
-  return (
-    <Box
-      sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
-    >
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <TextField label="FIRST NAME" variant="filled" fullWidth />
-        <TextField label="LAST NAME" variant="filled" fullWidth />
-      </Box>
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <DateField label="DEPART DATE" variant="filled" fullWidth />
-        <DateField label="RETURE DATE" variant="filled" fullWidth />
-      </Box>
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <TextField label="PHONE" variant="filled" fullWidth />
-        <TextField label="EMAIL" variant="filled" fullWidth />
-      </Box>
-    </Box>
-  )
-}
+import { contactSchema, quoteSchema } from '../utils/formValidations'
+import {
+  NotificationSeverity,
+  useCreateQuote,
+  useNotification,
+} from '@/app/core'
+import ContactForm from './ContactForm'
+import { ContactMessage, QuoteMessage } from '../utils/enums'
+import { useCreateContact } from '@/app/core/hooks/useCreateContact'
 
 const QuickQuote = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const { NotificationComponent, openNotification, closeNotification } = useNotification()
+  const { NotificationComponent, openNotification, closeNotification } =
+    useNotification()
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
   } = useForm({ resolver: yupResolver(quoteSchema) })
-  const { mutate, isLoading } = useCreateQuote({
-    onSuccess() {
-      openNotification('Quote created successfully', 'success')
-    },
-    onError(error) {
-      openNotification((error.response?.data as any).message, 'error')
-    },
+  const { create, isLoading } = useCreateQuote({
+    onSuccess,
+    onError,
   })
+
+  function onSuccess() {
+    openNotification(
+      QuoteMessage.QUOTE_CREATED_SUCCESSFULLY,
+      NotificationSeverity.SUCCESS,
+    )
+  }
+
+  function onError(error: any) {
+    const message = error.response?.data.message
+    if (message === ContactMessage.NOT_FOUND) {
+      setIsDialogOpen(true)
+      return
+    }
+
+    openNotification(error.response?.data.message, NotificationSeverity.ERROR)
+  }
 
   const onSubmit = () => {
     if (Object.keys(errors).length) {
-      openNotification((errors as any)[Object.keys(errors)[0]]?.message, 'error')
+      openNotification(
+        (errors as any)[Object.keys(errors)[0]]?.message,
+        NotificationSeverity.ERROR,
+      )
       return
     }
 
     closeNotification()
-    handleSubmit((data: any) => mutate(data))()
+    handleSubmit((data: TCreateQuote) => {
+      console.log(Object.keys(errors))
+      create(data)
+    })()
   }
 
   const handleDialogClose = () => setIsDialogOpen(false)
-
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -101,6 +102,7 @@ const QuickQuote = () => {
             color: (theme) => theme.palette.common.white,
             borderRadius: 20,
           }}
+          disabled={isLoading}
           onClick={onSubmit}
         >
           Create a quote
@@ -124,19 +126,61 @@ const QuickContactDialog = ({
   isOpen,
   handleClose,
 }: TQuickContactDialogProps) => {
+  const { NotificationComponent, openNotification, closeNotification } =
+    useNotification()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(contactSchema) })
+  const { create, isLoading } = useCreateContact({
+    onSuccess,
+    onError,
+  })
+
+  function onSuccess() {
+    openNotification(
+      ContactMessage.CONTACT_CREATED_SUCCESSFULLY,
+      NotificationSeverity.SUCCESS,
+    )
+  }
+
+  function onError(error: any) {
+    const message = error.response?.data.message
+
+    openNotification(message, NotificationSeverity.ERROR)
+  }
+
+  const onSubmit = () => {
+    if (Object.keys(errors).length) {
+      openNotification(
+        (errors as any)[Object.keys(errors)[0]]?.message,
+        NotificationSeverity.ERROR,
+      )
+      return
+    }
+
+    closeNotification()
+    handleSubmit((data: TCreateContact) => {
+      create(data)
+    })()
+  }
+
   return (
     <Dialog open={isOpen} onClose={handleClose}>
-      <DialogTitle>Create a new contact</DialogTitle>
+      <DialogTitle>{ContactMessage.QUICK_CONTACT_DIALOG_TITLE}</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          The email provided does not exist. Please register a new contact using
-          this email address or provide a different email.
+          {ContactMessage.QUICK_CONTACT_DIALOG_DESCRIPTION}
         </DialogContentText>
-        <ContactForm />
+        <ContactForm errors={errors} register={register} />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Create</Button>
+        <Button onClick={onSubmit} disabled={isLoading}>
+          Create
+        </Button>
       </DialogActions>
+      <NotificationComponent />
     </Dialog>
   )
 }

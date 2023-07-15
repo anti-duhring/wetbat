@@ -7,3 +7,8 @@ type TContact = {
   createdAt: Date
   updatedAt: Date
 }
+
+type TCreateContact = Pick<
+  TContact,
+  'firstName' | 'lastName' | 'phone' | 'email'
+>
