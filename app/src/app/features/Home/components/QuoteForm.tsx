@@ -1,8 +1,8 @@
 'use client'
 
-import { useAutocompleteAirports } from '@/app/core/hooks'
-import { AutocompleteInput } from '@/app/core/components'
-import { Box, TextField, TextFieldProps } from '@mui/material'
+import { AutocompleteInputAirport } from '@/app/core/components'
+import { QuoteFormMessage } from '@/app/core/enums'
+import { Box, TextField } from '@mui/material'
 import { DateField } from '@mui/x-date-pickers'
 import {
   Control,
@@ -24,7 +24,7 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
     >
       <AutocompleteInputAirport
         inputProps={{
-          label: 'FROM',
+          label: QuoteFormMessage.DEPARTURE_LOCATION_LABEL,
           variant: 'filled',
           error: Boolean(errors.departureLocationName?.message),
           ...register('departureLocationName'),
@@ -32,7 +32,7 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
       />
       <AutocompleteInputAirport
         inputProps={{
-          label: 'DESTINATION',
+          label: QuoteFormMessage.DESTINATION_LOCATION_LABEL,
           variant: 'filled',
           error: Boolean(errors.destinationLocationName?.message),
           ...register('destinationLocationName'),
@@ -44,7 +44,7 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
           control={control}
           render={({ field: { onChange, value } }) => (
             <DateField
-              label="DEPART DATE"
+              label={QuoteFormMessage.DEPARTURE_DATE_LABEL}
               value={value}
               onChange={onChange}
               variant="filled"
@@ -62,7 +62,7 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
           control={control}
           render={({ field: { onChange, value } }) => (
             <DateField
-              label="RETURN DATE"
+              label={QuoteFormMessage.DESTINATION_DATE_LABEL}
               value={value}
               onChange={onChange}
               variant="filled"
@@ -79,7 +79,7 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
       <Box sx={{ display: 'flex', gap: 2 }}>
         <TextField
           {...register('travellersAmount')}
-          label="PEOPLE"
+          label={QuoteFormMessage.TRAVELLERS_AMOUNT_LABEL}
           variant="filled"
           type="number"
           error={Boolean(errors.travellersAmount?.message)}
@@ -87,7 +87,7 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
         />
         <TextField
           {...register('transportation')}
-          label="TRANSPORTATION"
+          label={QuoteFormMessage.TRANSPORTATION_TYPE_LABEL}
           variant="filled"
           error={Boolean(errors.transportation?.message)}
           fullWidth
@@ -95,7 +95,7 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
       </Box>
       <TextField
         {...register('price')}
-        label="PRICE $"
+        label={QuoteFormMessage.PRICE_LABEL}
         fullWidth
         variant="filled"
         type="number"
@@ -103,53 +103,12 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
       />
       <TextField
         {...register('contactEmail')}
-        label="EMAIL"
+        label={QuoteFormMessage.CONTACT_LABEL}
         fullWidth
         variant="filled"
         error={Boolean(errors.contactEmail?.message)}
       />
     </Box>
-  )
-}
-
-type TAutocompleteInputProps = {
-  inputProps: TextFieldProps
-}
-
-const AutocompleteInputAirport = ({ inputProps }: TAutocompleteInputProps) => {
-  const { airports, isLoading, searchTerm, setSearchTerm } =
-    useAutocompleteAirports()
-
-  const onChange = (_: any, newValue: TAirport) => {
-    if (!newValue) {
-      setSearchTerm('')
-      return
-    }
-
-    setSearchTerm(newValue.name)
-  }
-  const onInputChange = (_: any, value: string) => {
-    setSearchTerm(value)
-  }
-
-  return (
-    <AutocompleteInput
-      inputProps={inputProps}
-      isLoading={isLoading}
-      options={airports}
-      value={searchTerm}
-      onChange={onChange}
-      onInputChange={onInputChange}
-      isOptionEqualToValue={(option: TAirport, value: string) =>
-        option.name.toLowerCase().includes(value.toLowerCase()) ||
-        option.city.toLowerCase().includes(value.toLowerCase()) ||
-        option.state.toLowerCase().includes(value.toLowerCase()) ||
-        option.country.toLowerCase().includes(value.toLowerCase())
-      }
-      getOptionLabel={(option: any) =>
-        typeof option === 'string' ? option : option.name
-      }
-    />
   )
 }
 

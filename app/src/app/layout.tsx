@@ -27,7 +27,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
 }))
 
-
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
@@ -42,7 +41,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               }}
             >
               <DrawerOrSidebarComponent />
-              <Box component="main" sx={{ p: 2, ml: { md: 27, lg: 27 }, width: '100%' }}>
+              <Box
+                component="main"
+                sx={{ p: 2, ml: { md: 27, lg: 27 }, width: '100%' }}
+              >
                 <DrawerHeader />
                 {children}
               </Box>

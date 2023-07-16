@@ -1,28 +1,39 @@
 import { quoteSchema } from '@/app/core'
-import { NotificationSeverity, useAutocompleteAirports, useCreateQuote, useNotification } from '@/app/core/hooks'
-import { AutocompleteInput } from '@/app/core/components'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Box, TextField, TextFieldProps } from '@mui/material'
-import { DateField, LocalizationProvider } from '@mui/x-date-pickers'
+import { AutocompleteInputAirport } from '@/app/core/components'
+import { QuoteFormMessage, QuoteMessage } from '@/app/core/enums'
 import {
-  Control,
-  Controller,
-  FieldErrors,
-  UseFormRegister,
-  useForm,
-} from 'react-hook-form'
-import { ContactMessage, QuoteMessage } from '@/app/core/enums'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+  NotificationSeverity,
+  useCreateQuote,
+  useNotification,
+} from '@/app/core/hooks'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Box, TextField, Button } from '@mui/material'
+import { DateField, LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import dayjs from 'dayjs'
+import { Controller, useForm } from 'react-hook-form'
 
-const QuoteForm = () => {
-    const { NotificationComponent, openNotification, closeNotification } =
+type Props = {
+  quote: TQuote
+}
+const QuoteForm = ({ quote }: Props) => {
+  const { NotificationComponent, openNotification, closeNotification } =
     useNotification()
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(quoteSchema) })
+  } = useForm({
+    resolver: yupResolver(quoteSchema),
+    defaultValues: {
+      ...quote,
+      departureDate: dayjs(quote.departureDate) as any,
+      destinationDate: dayjs(quote.destinationDate) as any,
+      departureLocationName: quote.departureLocation.name,
+      destinationLocationName: quote.destinationLocation.name,
+    },
+  })
   const { create, isLoading } = useCreateQuote({
     onSuccess,
     onError,
@@ -36,7 +47,6 @@ const QuoteForm = () => {
   }
 
   function onError(error: any) {
-
     openNotification(error.response?.data.message, NotificationSeverity.ERROR)
   }
 
@@ -58,138 +68,125 @@ const QuoteForm = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Box
+      <Box
         sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
-        >
-        <AutocompleteInputAirport
-            inputProps={{
-            label: 'FROM',
-            variant: 'filled',
-            error: Boolean(errors.departureLocationName?.message),
-            ...register('departureLocationName'),
-            }}
+      >
+        <TextField
+          label={QuoteFormMessage.ID_LABEL}
+          variant="filled"
+          value={quote.id}
+          disabled
+          fullWidth
+        />
+        <TextField
+          label={QuoteFormMessage.STATUS_LABEL}
+          variant="filled"
+          value={quote.status}
+          disabled
+          fullWidth
         />
         <AutocompleteInputAirport
-            inputProps={{
-            label: 'DESTINATION',
+          defaultValue={quote.departureLocation.name}
+          inputProps={{
+            label: QuoteFormMessage.DEPARTURE_LOCATION_LABEL,
+            variant: 'filled',
+            helperText: QuoteFormMessage.DEPARTURE_LOCATION_HELPER_TEXT,
+            error: Boolean(errors.departureLocationName?.message),
+            ...register('departureLocationName'),
+          }}
+        />
+        <AutocompleteInputAirport
+          defaultValue={quote.destinationLocation.name}
+          inputProps={{
+            label: QuoteFormMessage.DESTINATION_LOCATION_LABEL,
+            helperText: QuoteFormMessage.DESTINATION_LOCATION_HELPER_TEXT,
             variant: 'filled',
             error: Boolean(errors.destinationLocationName?.message),
             ...register('destinationLocationName'),
-            }}
+          }}
         />
         <Box sx={{ display: 'flex', gap: 2 }}>
-            <Controller
+          <Controller
             name="departureDate"
             control={control}
             render={({ field: { onChange, value } }) => (
-                <DateField
-                label="DEPART DATE"
+              <DateField
+                label={QuoteFormMessage.DEPARTURE_DATE_LABEL}
+                helperText={QuoteFormMessage.DEPARTURE_DATE_HELPER_TEXT}
                 value={value}
                 onChange={onChange as any}
                 variant="filled"
                 slotProps={{
-                    textField: {
+                  textField: {
                     error: Boolean(errors.departureDate?.message),
-                    },
+                  },
                 }}
                 fullWidth
-                />
+              />
             )}
-            />
-            <Controller
+          />
+          <Controller
             name="destinationDate"
             control={control}
             render={({ field: { onChange, value } }) => (
-                <DateField
-                label="RETURN DATE"
+              <DateField
+                label={QuoteFormMessage.DESTINATION_DATE_LABEL}
+                helperText={QuoteFormMessage.DESTINATION_DATE_HELPER_TEXT}
                 value={value}
                 onChange={onChange as any}
                 variant="filled"
                 slotProps={{
-                    textField: {
+                  textField: {
                     error: Boolean(errors.destinationDate?.message),
-                    },
+                  },
                 }}
                 fullWidth
-                />
+              />
             )}
-            />
+          />
         </Box>
         <Box sx={{ display: 'flex', gap: 2 }}>
-            <TextField
+          <TextField
             {...register('travellersAmount')}
-            label="PEOPLE"
+            label={QuoteFormMessage.TRAVELLERS_AMOUNT_LABEL}
+            helperText={QuoteFormMessage.TRAVELLERS_AMOUNT_HELPER_TEXT}
             variant="filled"
             type="number"
             error={Boolean(errors.travellersAmount?.message)}
             fullWidth
-            />
-            <TextField
+          />
+          <TextField
             {...register('transportation')}
-            label="TRANSPORTATION"
+            label={QuoteFormMessage.TRANSPORTATION_TYPE_LABEL}
+            helperText={QuoteFormMessage.TRANSPORTATION_TYPE_HELPER_TEXT}
             variant="filled"
             error={Boolean(errors.transportation?.message)}
             fullWidth
-            />
+          />
         </Box>
         <TextField
-            {...register('price')}
-            label="PRICE $"
-            fullWidth
-            variant="filled"
-            type="number"
-            error={Boolean(errors.price?.message)}
+          {...register('price')}
+          label={QuoteFormMessage.PRICE_LABEL}
+          helperText={QuoteFormMessage.PRICE_HELPER_TEXT}
+          fullWidth
+          variant="filled"
+          type="number"
+          error={Boolean(errors.price?.message)}
         />
         <TextField
-            {...register('contactEmail')}
-            label="EMAIL"
-            fullWidth
-            variant="filled"
-            error={Boolean(errors.contactEmail?.message)}
+          {...register('contactEmail')}
+          label={QuoteFormMessage.CONTACT_LABEL}
+          helperText={QuoteFormMessage.CONTACT_HELPER_TEXT}
+          fullWidth
+          variant="filled"
+          error={Boolean(errors.contactEmail?.message)}
         />
+        <Box>
+          <Button variant="contained">Update quote</Button>
         </Box>
+      </Box>
+      <NotificationComponent />
     </LocalizationProvider>
-  )
-}
-
-type TAutocompleteInputProps = {
-  inputProps: TextFieldProps
-}
-
-const AutocompleteInputAirport = ({ inputProps }: TAutocompleteInputProps) => {
-  const { airports, isLoading, searchTerm, setSearchTerm } =
-    useAutocompleteAirports()
-
-  const onChange = (_: any, newValue: TAirport) => {
-    if (!newValue) {
-      setSearchTerm('')
-      return
-    }
-
-    setSearchTerm(newValue.name)
-  }
-  const onInputChange = (_: any, value: string) => {
-    setSearchTerm(value)
-  }
-
-  return (
-    <AutocompleteInput
-      inputProps={inputProps}
-      isLoading={isLoading}
-      options={airports}
-      value={searchTerm}
-      onChange={onChange}
-      onInputChange={onInputChange}
-      isOptionEqualToValue={(option: TAirport, value: string) =>
-        option.name.toLowerCase().includes(value.toLowerCase()) ||
-        option.city.toLowerCase().includes(value.toLowerCase()) ||
-        option.state.toLowerCase().includes(value.toLowerCase()) ||
-        option.country.toLowerCase().includes(value.toLowerCase())
-      }
-      getOptionLabel={(option: any) =>
-        typeof option === 'string' ? option : option.name
-      }
-    />
   )
 }
 

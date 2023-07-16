@@ -1,14 +1,14 @@
 'use client'
 
-import FastForwardOutlinedIcon from '@mui/icons-material/FastForwardOutlined';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import { Box, CircularProgress, IconButton } from '@mui/material';
-import { useEffect, useState } from 'react';
+import FastForwardOutlinedIcon from '@mui/icons-material/FastForwardOutlined'
+import FullscreenIcon from '@mui/icons-material/Fullscreen'
+import { Box, CircularProgress, IconButton } from '@mui/material'
+import { useEffect, useState } from 'react'
 
-import NewLeads from './NewLeads';
-import PendingQuotes from './PendingQuotes';
-import QuickQuote from './QuickQuote';
-import Widget from './Widget';
+import NewLeads from './NewLeads'
+import PendingQuotes from './PendingQuotes'
+import QuickQuote from './QuickQuote'
+import Widget from './Widget'
 
 const QuoteWidgets = () => {
   const [isClient, setIsClient] = useState(false)
@@ -28,11 +28,7 @@ const QuoteWidgets = () => {
         width: '100%',
       }}
     >
-      {isClient ? (
-        <QuickQuote />
-      ) : (
-        <LoadingQuickQuoteWidget />
-      )}
+      {isClient ? <QuickQuote /> : <LoadingQuickQuoteWidget />}
       <PendingQuotes />
       <NewLeads />
     </Box>

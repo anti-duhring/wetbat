@@ -31,6 +31,17 @@ export class QuoteController {
     }
   }
 
+  @Get(':id')
+  @ApiOperation({ summary: 'Get an existent quote' })
+  @ApiParam({ name: 'id', example: faker.string.uuid(), description: 'Quote ID' })
+  async getQuote(@Param('id') id: string) {
+    try {
+      return this.quoteService.findOne(id);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   @Put(':id')
   @ApiOperation({ summary: 'Update an existent quote' })
   @ApiParam({ name: 'id', example: faker.string.uuid(), description: 'Quote ID' })

@@ -1,12 +1,10 @@
-import { Tabs } from "@/app/features/QuoteDetails"
+import { Tabs } from '@/app/features/QuoteDetails'
+import { Metadata } from 'next'
 
-type Props = {
-    params: {
-        id: string
-    }
+export const metadata: Metadata = {
+  title: 'Quote Details | WetBat',
 }
-export default function Quote({ params }: Props) {
-    return (
-        <Tabs />
-    )
+
+export default function Quote() {
+  return <Tabs />
 }

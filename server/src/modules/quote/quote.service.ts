@@ -27,6 +27,17 @@ export class QuoteService {
     return quotes;
   }
 
+  async findOne(id: string) {
+    const quote = await this.prisma.quote.findUnique({
+      where: { id },
+      include: { contact: true, departureLocation: true, destinationLocation: true },
+    });
+    if (!quote) {
+      throw new EntityNotFoundException('Quote');
+    }
+    return quote;
+  }
+
   async update(id: string, data: UpdateQuoteDTO) {
     const { destinationDate, departureDate } = data;
 

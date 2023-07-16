@@ -1,5 +1,6 @@
 'use client'
 
+import { ContactFormMessage } from '@/app/core/enums'
 import { Box, TextField } from '@mui/material'
 import { FieldErrors, UseFormRegister } from 'react-hook-form'
 
@@ -17,14 +18,14 @@ const ContactForm = ({ errors, register }: TContactFormProps) => {
         <TextField
           {...register('firstName', { required: true })}
           error={Boolean(errors?.firstName)}
-          label="FIRST NAME"
+          label={ContactFormMessage.FIRST_NAME_LABEL}
           variant="filled"
           fullWidth
         />
         <TextField
           {...register('lastName', { required: true })}
           error={Boolean(errors?.lastName)}
-          label="LAST NAME"
+          label={ContactFormMessage.LAST_NAME_LABEL}
           variant="filled"
           fullWidth
         />
@@ -33,14 +34,14 @@ const ContactForm = ({ errors, register }: TContactFormProps) => {
         <TextField
           {...register('phone', { required: true })}
           error={Boolean(errors?.phone)}
-          label="PHONE"
+          label={ContactFormMessage.PHONE_NUMBER_LABEL}
           variant="filled"
           fullWidth
         />
         <TextField
           {...register('email', { required: true })}
           error={Boolean(errors?.email)}
-          label="EMAIL"
+          label={ContactFormMessage.EMAIL_LABEL}
           variant="filled"
           fullWidth
         />
