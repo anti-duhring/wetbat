@@ -1,6 +1,21 @@
 import { faker } from '@faker-js/faker';
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 
 import { CreateQuoteDTO, UpdateQuoteDTO } from './quote.dto';
 import { QuoteService } from './quote.service';
@@ -23,9 +38,14 @@ export class QuoteController {
 
   @Get()
   @ApiOperation({ summary: 'Get all quotes' })
-  async getQuotes() {
+  @ApiQuery({
+    name: 'max',
+    example: faker.number.int({ min: 1, max: 10 }),
+    description: 'Max number of quotes to return',
+  })
+  async getQuotes(@Query('max') max) {
     try {
-      return this.quoteService.findAll();
+      return this.quoteService.findAll(max);
     } catch (err) {
       console.error(err);
     }
@@ -33,7 +53,11 @@ export class QuoteController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get an existent quote' })
-  @ApiParam({ name: 'id', example: faker.string.uuid(), description: 'Quote ID' })
+  @ApiParam({
+    name: 'id',
+    example: faker.string.uuid(),
+    description: 'Quote ID',
+  })
   async getQuote(@Param('id') id: string) {
     try {
       return this.quoteService.findOne(id);
@@ -44,8 +68,12 @@ export class QuoteController {
 
   @Put(':id')
   @ApiOperation({ summary: 'Update an existent quote' })
-  @ApiParam({ name: 'id', example: faker.string.uuid(), description: 'Quote ID' })
-  @ApiBody({ type: UpdateQuoteDTO  })
+  @ApiParam({
+    name: 'id',
+    example: faker.string.uuid(),
+    description: 'Quote ID',
+  })
+  @ApiBody({ type: UpdateQuoteDTO })
   async updateQuote(@Param('id') id: string, @Body() data: UpdateQuoteDTO) {
     try {
       return this.quoteService.update(id, data);
@@ -56,7 +84,11 @@ export class QuoteController {
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete an existent quote' })
-  @ApiParam({ name: 'id', example: faker.string.uuid(), description: 'Quote ID'  })
+  @ApiParam({
+    name: 'id',
+    example: faker.string.uuid(),
+    description: 'Quote ID',
+  })
   async deleteQuote(@Param('id') id: string) {
     try {
       return this.quoteService.delete(id);

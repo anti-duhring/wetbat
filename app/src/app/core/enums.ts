@@ -1,5 +1,6 @@
 export enum QuoteMessage {
   QUOTE_CREATED_SUCCESSFULLY = 'Quote created successfully',
+  QUOTE_UPDATED_SUCCESSFULLY = 'Quote updated successfully',
 }
 
 export enum QuoteFormMessage {
@@ -29,6 +30,7 @@ export enum ContactMessage {
   QUICK_CONTACT_DIALOG_TITLE = 'Quick Contact',
   QUICK_CONTACT_DIALOG_DESCRIPTION = 'The email provided does not exist. Please register a new contact using this email address or provide a different email.',
   CONTACT_CREATED_SUCCESSFULLY = 'Contact created successfully',
+  CONTACT_UPDATED_SUCCESSFULLY = 'Contact updated successfully',
   NOT_FOUND = 'Contact not found',
 }
 
@@ -42,6 +44,11 @@ export enum ContactFormMessage {
   PHONE_NUMBER_LABEL = 'PHONE NUMBER',
   PHONE_NUMBER_HELPER_TEXT = 'Phone number of the contact.',
   ID_LABEL = 'ID',
+}
+
+export enum AirportMessage {
+  AIRPORT_CREATED_SUCCESSFULLY = 'Airport created successfully',
+  AIRPORT_UPDATED_SUCCESSFULLY = 'Airport updated successfully',
 }
 
 export enum AirportFormMessage {
@@ -60,4 +67,9 @@ export enum AirportFormMessage {
   COUNTRY_HELPER_TEXT = 'Provide the country of the airport.',
   TIMEZONE_LABEL = 'TIMEZONE',
   TIMEZONE_HELPER_TEXT = 'Timezone of the airport region.',
+}
+
+export enum URLs {
+  HOME = '/',
+  QUOTE_DETAILS = '/quotes',
 }

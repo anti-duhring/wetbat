@@ -8,11 +8,11 @@ import { Divider, IconButton, useMediaQuery } from '@mui/material'
 
 import DestinationsCharts from './DestinationsCharts'
 import DestinationsMap from './DestinationsMap'
-import DestinationTicket from './DestinationTicket'
 import Widget from './Widget'
+import Loading from './Loading'
 
 const PopularDestinations = () => {
-  const { data, isLoading, isFetching, refetch } = usePopularDestinations()
+  const { data, isLoading } = usePopularDestinations()
   const isMediaQueryAboveSm = useMediaQuery(theme.breakpoints.up('sm'), {
     defaultMatches: true,
   })
@@ -32,10 +32,15 @@ const PopularDestinations = () => {
       }}
       sx={{ flex: 3 }}
     >
-      <DestinationsCharts data={data} />
-      <Divider orientation="vertical" flexItem />
-      {isMediaQueryAboveSm && <DestinationsMap data={data} />}
-      <DestinationTicket />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <DestinationsCharts data={data} />
+          <Divider orientation="vertical" flexItem />
+          <DestinationsMap data={data} />
+        </>
+      )}
     </Widget>
   )
 }

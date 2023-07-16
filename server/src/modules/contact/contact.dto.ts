@@ -1,17 +1,12 @@
 import { faker } from '@faker-js/faker';
 // import { PartialType, OmitType } from '@nestjs/mapped-types';
 import { ApiProperty, PartialType, OmitType } from '@nestjs/swagger';
-import {
-  IsUUID,
-  IsString,
-  IsNotEmpty,
-  IsEmail,
-  IsDate
-} from 'class-validator';
+import { IsUUID, IsString, IsNotEmpty, IsEmail, IsDate } from 'class-validator';
 
 export class ContactDTO {
   @ApiProperty({
-    description: 'Unique identifier for the contact. This field is filled automatically by the database.',
+    description:
+      'Unique identifier for the contact. This field is filled automatically by the database.',
     example: faker.string.uuid(),
     required: false,
     readOnly: true,
@@ -55,28 +50,32 @@ export class ContactDTO {
   email: string;
 
   @ApiProperty({
-    description: 'Date of the creation of the contact. This field is filled automatically by the database.',
+    description:
+      'Date of the creation of the contact. This field is filled automatically by the database.',
     example: faker.date.past(),
     default: new Date(),
     required: false,
-    readOnly: true
+    readOnly: true,
   })
   @IsDate()
   createdAt: Date;
 
   @ApiProperty({
-    description: 'Date of the last update of this contact. This field is filled automatically by the database.',
+    description:
+      'Date of the last update of this contact. This field is filled automatically by the database.',
     example: faker.date.past(),
     default: new Date(),
     required: false,
-    readOnly: true
+    readOnly: true,
   })
   @IsDate()
   updatedAt: Date;
 }
 
-export class CreateContactDTO extends OmitType(ContactDTO, ['id', 'createdAt', 'updatedAt'])  {
-}
+export class CreateContactDTO extends OmitType(ContactDTO, [
+  'id',
+  'createdAt',
+  'updatedAt',
+]) {}
 
-export class UpdateContactDTO extends PartialType(CreateContactDTO)  {
-}
+export class UpdateContactDTO extends PartialType(CreateContactDTO) {}

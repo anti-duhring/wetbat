@@ -11,13 +11,6 @@ import QuickQuote from './QuickQuote'
 import Widget from './Widget'
 
 const QuoteWidgets = () => {
-  const [isClient, setIsClient] = useState(false)
-
-  // Reference: https://nextjs.org/docs/messages/react-hydration-error
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
   return (
     <Box
       sx={{
@@ -28,33 +21,10 @@ const QuoteWidgets = () => {
         width: '100%',
       }}
     >
-      {isClient ? <QuickQuote /> : <LoadingQuickQuoteWidget />}
+      <QuickQuote />
       <PendingQuotes />
       <NewLeads />
     </Box>
-  )
-}
-
-const LoadingQuickQuoteWidget = () => {
-  return (
-    <Widget
-      title="Quick quote"
-      Icon={FastForwardOutlinedIcon}
-      actionButtons={
-        <IconButton>
-          <FullscreenIcon />
-        </IconButton>
-      }
-      sx={{ flex: 1, flexShrink: 2 }}
-      contentSx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%',
-      }}
-    >
-      <CircularProgress size={70} color="secondary" />
-    </Widget>
   )
 }
 

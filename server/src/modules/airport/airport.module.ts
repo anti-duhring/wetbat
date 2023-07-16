@@ -4,7 +4,7 @@ import { AirportService } from './airport.service';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
-    controllers: [AirportController],
-    providers: [AirportService, PrismaService]
+  controllers: [AirportController],
+  providers: [AirportService, PrismaService],
 })
 export class AirportModule {}

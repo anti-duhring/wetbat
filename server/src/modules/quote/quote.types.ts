@@ -1,4 +1,3 @@
-
 export enum QuoteStatus {
   PENDING = 'PENDING', // When the quote is created but the trip does not happened yet
   INPROGRESS = 'INPROGRESS', // When the trip is happening

@@ -21,6 +21,7 @@ type TUseQuery<T> = T extends true
 
 export function useQuotes(params: { quoteId?: string }): TUseQuery<true>
 export function useQuotes(params: { quoteId?: undefined }): TUseQuery<false>
+export function useQuotes(): TUseQuery<false>
 export function useQuotes(params: TUseQuotesParams = {}) {
   const { quoteId } = params
 

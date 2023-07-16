@@ -7,7 +7,7 @@ import {
   IsPositive,
   IsUUID,
   IsEmail,
-  IsDateString
+  IsDateString,
 } from 'class-validator';
 import { QuoteStatus } from './quote.types';
 import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
@@ -15,7 +15,8 @@ import { faker } from '@faker-js/faker';
 
 export class QuoteDTO {
   @ApiProperty({
-    description: 'Unique identifier for the quote. This field is filled automatically by the database.',
+    description:
+      'Unique identifier for the quote. This field is filled automatically by the database.',
     example: faker.string.uuid(),
     readOnly: true,
     uniqueItems: true,
@@ -24,7 +25,8 @@ export class QuoteDTO {
   id: string;
 
   @ApiProperty({
-    description: 'The name of the airport that is going to be the departure location',
+    description:
+      'The name of the airport that is going to be the departure location',
     example: faker.location.city(),
   })
   @IsString()
@@ -32,7 +34,8 @@ export class QuoteDTO {
   departureLocationName: string;
 
   @ApiProperty({
-    description: 'The name of the airport that is going to be the destination location',
+    description:
+      'The name of the airport that is going to be the destination location',
     example: faker.location.city(),
   })
   @IsString()
@@ -71,7 +74,6 @@ export class QuoteDTO {
   @IsNotEmpty()
   transportation: string;
 
-
   @ApiProperty({
     description: 'The price of the trip',
     example: faker.commerce.price(),
@@ -79,7 +81,6 @@ export class QuoteDTO {
   @IsNumber()
   @IsPositive()
   price: number;
-
 
   @ApiProperty({
     description: 'The status of the quote',
@@ -99,26 +100,31 @@ export class QuoteDTO {
   contactEmail: string;
 
   @ApiProperty({
-    description: 'Date of creation of this entity. This field is filled automatically by the database.',
+    description:
+      'Date of creation of this entity. This field is filled automatically by the database.',
     example: faker.date.past(),
     default: new Date(),
-    readOnly: true
+    readOnly: true,
   })
   @IsDate()
   createdAt: Date;
 
   @ApiProperty({
-    description: 'Date of the last update of this entity. This field is filled automatically by the database.',
+    description:
+      'Date of the last update of this entity. This field is filled automatically by the database.',
     example: faker.date.past(),
     default: new Date(),
-    readOnly: true
+    readOnly: true,
   })
   @IsDate()
   updatedAt: Date;
 }
 
-export class CreateQuoteDTO extends OmitType(QuoteDTO, ['id', 'status', 'createdAt', 'updatedAt'])  {
-}
+export class CreateQuoteDTO extends OmitType(QuoteDTO, [
+  'id',
+  'status',
+  'createdAt',
+  'updatedAt',
+]) {}
 
-export class UpdateQuoteDTO extends PartialType(CreateQuoteDTO)  {
-}
+export class UpdateQuoteDTO extends PartialType(CreateQuoteDTO) {}

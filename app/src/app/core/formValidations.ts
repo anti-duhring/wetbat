@@ -42,3 +42,13 @@ export const contactSchema = yup.object({
     .required('Contact email is required'),
   phone: yup.string().nonNullable().required('Phone number is required'),
 })
+
+export const airportSchema = yup.object({
+  lat: yup.string().nonNullable().required('Latitude is required'),
+  lon: yup.string().nonNullable().required('Longitude is required'),
+  name: yup.string().nonNullable().required('Name is required'),
+  city: yup.string().nonNullable().required('City is required'),
+  state: yup.string().nonNullable().required('State is required'),
+  country: yup.string().nonNullable().required('Country is required'),
+  tz: yup.string().nonNullable().required('Timezone is required'),
+})

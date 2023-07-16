@@ -11,6 +11,20 @@ export const roboto = Roboto({
 
 // Create a theme instance.
 const theme = createTheme({
+  components: {
+    MuiTextField: {
+      defaultProps: {
+        variant: 'filled',
+        fullWidth: true,
+      },
+    },
+    MuiButton: {
+      defaultProps: {
+        variant: 'contained',
+        size: 'large',
+      },
+    },
+  },
   palette: {
     primary: {
       main: '#5F6CAF',

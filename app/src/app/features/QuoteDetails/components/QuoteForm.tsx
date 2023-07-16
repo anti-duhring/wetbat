@@ -1,17 +1,15 @@
 import { quoteSchema } from '@/app/core'
 import { AutocompleteInputAirport } from '@/app/core/components'
 import { QuoteFormMessage, QuoteMessage } from '@/app/core/enums'
-import {
-  NotificationSeverity,
-  useCreateQuote,
-  useNotification,
-} from '@/app/core/hooks'
+import { NotificationSeverity, useNotification } from '@/app/core/hooks'
+import { useUpdateQuote } from '@/app/core/hooks/useUpdateQuote'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Box, TextField, Button } from '@mui/material'
+import { Box, Button, TextField } from '@mui/material'
 import { DateField, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
 import { Controller, useForm } from 'react-hook-form'
+import SaveIcon from '@mui/icons-material/Save'
 
 type Props = {
   quote: TQuote
@@ -34,14 +32,14 @@ const QuoteForm = ({ quote }: Props) => {
       destinationLocationName: quote.destinationLocation.name,
     },
   })
-  const { create, isLoading } = useCreateQuote({
+  const { update, isLoading } = useUpdateQuote({
     onSuccess,
     onError,
   })
 
   function onSuccess() {
     openNotification(
-      QuoteMessage.QUOTE_CREATED_SUCCESSFULLY,
+      QuoteMessage.QUOTE_UPDATED_SUCCESSFULLY,
       NotificationSeverity.SUCCESS,
     )
   }
@@ -60,10 +58,7 @@ const QuoteForm = ({ quote }: Props) => {
     }
 
     closeNotification()
-    handleSubmit((data: TCreateQuote) => {
-      console.log(Object.keys(errors))
-      create(data)
-    })()
+    handleSubmit((data) => update({ id: quote.id, ...data }))()
   }
 
   return (
@@ -73,23 +68,18 @@ const QuoteForm = ({ quote }: Props) => {
       >
         <TextField
           label={QuoteFormMessage.ID_LABEL}
-          variant="filled"
           value={quote.id}
           disabled
-          fullWidth
         />
         <TextField
           label={QuoteFormMessage.STATUS_LABEL}
-          variant="filled"
           value={quote.status}
           disabled
-          fullWidth
         />
         <AutocompleteInputAirport
           defaultValue={quote.departureLocation.name}
           inputProps={{
             label: QuoteFormMessage.DEPARTURE_LOCATION_LABEL,
-            variant: 'filled',
             helperText: QuoteFormMessage.DEPARTURE_LOCATION_HELPER_TEXT,
             error: Boolean(errors.departureLocationName?.message),
             ...register('departureLocationName'),
@@ -100,7 +90,6 @@ const QuoteForm = ({ quote }: Props) => {
           inputProps={{
             label: QuoteFormMessage.DESTINATION_LOCATION_LABEL,
             helperText: QuoteFormMessage.DESTINATION_LOCATION_HELPER_TEXT,
-            variant: 'filled',
             error: Boolean(errors.destinationLocationName?.message),
             ...register('destinationLocationName'),
           }}
@@ -115,13 +104,11 @@ const QuoteForm = ({ quote }: Props) => {
                 helperText={QuoteFormMessage.DEPARTURE_DATE_HELPER_TEXT}
                 value={value}
                 onChange={onChange as any}
-                variant="filled"
                 slotProps={{
                   textField: {
                     error: Boolean(errors.departureDate?.message),
                   },
                 }}
-                fullWidth
               />
             )}
           />
@@ -134,13 +121,11 @@ const QuoteForm = ({ quote }: Props) => {
                 helperText={QuoteFormMessage.DESTINATION_DATE_HELPER_TEXT}
                 value={value}
                 onChange={onChange as any}
-                variant="filled"
                 slotProps={{
                   textField: {
                     error: Boolean(errors.destinationDate?.message),
                   },
                 }}
-                fullWidth
               />
             )}
           />
@@ -150,26 +135,20 @@ const QuoteForm = ({ quote }: Props) => {
             {...register('travellersAmount')}
             label={QuoteFormMessage.TRAVELLERS_AMOUNT_LABEL}
             helperText={QuoteFormMessage.TRAVELLERS_AMOUNT_HELPER_TEXT}
-            variant="filled"
             type="number"
             error={Boolean(errors.travellersAmount?.message)}
-            fullWidth
           />
           <TextField
             {...register('transportation')}
             label={QuoteFormMessage.TRANSPORTATION_TYPE_LABEL}
             helperText={QuoteFormMessage.TRANSPORTATION_TYPE_HELPER_TEXT}
-            variant="filled"
             error={Boolean(errors.transportation?.message)}
-            fullWidth
           />
         </Box>
         <TextField
           {...register('price')}
           label={QuoteFormMessage.PRICE_LABEL}
           helperText={QuoteFormMessage.PRICE_HELPER_TEXT}
-          fullWidth
-          variant="filled"
           type="number"
           error={Boolean(errors.price?.message)}
         />
@@ -177,12 +156,16 @@ const QuoteForm = ({ quote }: Props) => {
           {...register('contactEmail')}
           label={QuoteFormMessage.CONTACT_LABEL}
           helperText={QuoteFormMessage.CONTACT_HELPER_TEXT}
-          fullWidth
-          variant="filled"
           error={Boolean(errors.contactEmail?.message)}
         />
         <Box>
-          <Button variant="contained">Update quote</Button>
+          <Button
+            endIcon={<SaveIcon />}
+            onClick={onSubmit}
+            disabled={isLoading}
+          >
+            Update quote
+          </Button>
         </Box>
       </Box>
       <NotificationComponent />

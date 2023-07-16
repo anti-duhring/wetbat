@@ -1,5 +1,13 @@
 import { faker } from '@faker-js/faker';
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 import { CreateContactDTO, UpdateContactDTO } from './contact.dto';
@@ -33,8 +41,12 @@ export class ContactController {
 
   @Put(':id')
   @ApiOperation({ summary: 'Update an existent contact' })
-  @ApiParam({ name: 'id', example: faker.string.uuid(), description: 'Contact ID' })
-  @ApiBody({ type: UpdateContactDTO  })
+  @ApiParam({
+    name: 'id',
+    example: faker.string.uuid(),
+    description: 'Contact ID',
+  })
+  @ApiBody({ type: UpdateContactDTO })
   async update(@Param('id') id: string, @Body() data: UpdateContactDTO) {
     try {
       return this.contactService.update(id, data);
@@ -45,7 +57,11 @@ export class ContactController {
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete an existent contact' })
-  @ApiParam({ name: 'id', example: faker.string.uuid(), description: 'Contact ID'  })
+  @ApiParam({
+    name: 'id',
+    example: faker.string.uuid(),
+    description: 'Contact ID',
+  })
   async delete(@Param('id') id: string) {
     try {
       return this.contactService.delete(id);

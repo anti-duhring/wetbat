@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import {  CreateContactDTO, UpdateContactDTO } from './contact.dto';
+import { CreateContactDTO, UpdateContactDTO } from './contact.dto';
 import {
   EntityNotFoundException,
   InvalidDataException,
@@ -27,7 +27,7 @@ export class ContactService {
 
   async update(id: string, data: UpdateContactDTO) {
     const { email, phone } = data;
-  
+
     const contactExists = await this.prisma.contact.findUnique({
       where: { id },
     });
@@ -36,10 +36,10 @@ export class ContactService {
       throw new EntityNotFoundException('Contact');
     }
 
-    if(contactExists.email !== email && email) {
+    if (contactExists.email !== email && email) {
       await this.validateIfContactWithGivenEmailExists(email);
     }
-    if(contactExists.phone !== phone && phone) {
+    if (contactExists.phone !== phone && phone) {
       await this.validateIfContactWithGivenPhoneExists(phone);
     }
 
@@ -63,15 +63,15 @@ export class ContactService {
     });
   }
 
-  async validateIfContactWithGivenUniqueDataExists(email: string, phone: string) {
+  async validateIfContactWithGivenUniqueDataExists(
+    email: string,
+    phone: string,
+  ) {
     await this.validateIfContactWithGivenEmailExists(email);
     await this.validateIfContactWithGivenPhoneExists(phone);
-  
   }
 
-  async validateIfContactWithGivenEmailExists(
-    email: string
-  ) {
+  async validateIfContactWithGivenEmailExists(email: string) {
     const contactWithGivenEmail = await this.prisma.contact.findUnique({
       where: { email },
     });
@@ -83,10 +83,7 @@ export class ContactService {
     }
   }
 
-  async validateIfContactWithGivenPhoneExists(
-    phone: string
-  ) {
-
+  async validateIfContactWithGivenPhoneExists(phone: string) {
     const contactWithGivenPhone = await this.prisma.contact.findUnique({
       where: { phone },
     });
@@ -97,5 +94,4 @@ export class ContactService {
       );
     }
   }
-
 }

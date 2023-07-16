@@ -13,6 +13,7 @@ import {
 import { GEOGRAPHY_URL, TDestination } from '../utils/destinationsMap'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import DestinationTicket from './DestinationTicket'
 
 type TPosition = {
   coordinates: [number, number]
@@ -46,12 +47,13 @@ const DestinationsMap = ({ data }: Props) => {
     <Box
       sx={{
         flex: 3,
+        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
       }}
     >
-      <ComposableMap projection="geoEquirectangular">
+      <ComposableMap projection="geoEquirectangular" height={400}>
         <ZoomableGroup
           zoom={position.zoom}
           center={position.coordinates}
@@ -95,6 +97,7 @@ const DestinationsMap = ({ data }: Props) => {
         </ZoomableGroup>
       </ComposableMap>
       <Controls handleZoomIn={handleZoomIn} handleZoomOut={handleZoomOut} />
+      <DestinationTicket />
     </Box>
   )
 }

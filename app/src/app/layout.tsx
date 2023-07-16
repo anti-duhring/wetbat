@@ -7,7 +7,6 @@ import {
   CssBaseline,
   styled,
   ThemeProvider,
-  useMediaQuery,
 } from '@mui/material'
 import { Inter } from 'next/font/google'
 import { ReactNode } from 'react'

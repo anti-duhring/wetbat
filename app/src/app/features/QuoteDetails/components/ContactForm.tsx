@@ -2,12 +2,13 @@ import { contactSchema } from '@/app/core'
 import { ContactFormMessage, ContactMessage } from '@/app/core/enums'
 import {
   NotificationSeverity,
-  useCreateContact,
   useNotification,
+  useUpdateContact,
 } from '@/app/core/hooks'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Button, TextField } from '@mui/material'
 import { useForm } from 'react-hook-form'
+import SaveIcon from '@mui/icons-material/Save'
 
 type Props = {
   contact: TContact
@@ -20,7 +21,7 @@ const ContactForm = ({ contact }: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(contactSchema), defaultValues: contact })
-  const { create, isLoading } = useCreateContact({
+  const { update, isLoading } = useUpdateContact({
     onSuccess,
     onError,
   })
@@ -48,9 +49,7 @@ const ContactForm = ({ contact }: Props) => {
     }
 
     closeNotification()
-    handleSubmit((data: TCreateContact) => {
-      create(data)
-    })()
+    handleSubmit((data) => update({ id: contact.id, ...data }))()
   }
 
   return (
@@ -60,9 +59,7 @@ const ContactForm = ({ contact }: Props) => {
       <TextField
         label={ContactFormMessage.ID_LABEL}
         value={contact.id}
-        variant="filled"
         disabled
-        fullWidth
       />
       <Box sx={{ display: 'flex', gap: 2 }}>
         <TextField
@@ -70,16 +67,12 @@ const ContactForm = ({ contact }: Props) => {
           error={Boolean(errors?.firstName)}
           label={ContactFormMessage.FIRST_NAME_LABEL}
           helperText={ContactFormMessage.FIRST_NAME_HELPER_TEXT}
-          variant="filled"
-          fullWidth
         />
         <TextField
           {...register('lastName', { required: true })}
           error={Boolean(errors?.lastName)}
           label={ContactFormMessage.LAST_NAME_LABEL}
           helperText={ContactFormMessage.LAST_NAME_HELPER_TEXT}
-          variant="filled"
-          fullWidth
         />
       </Box>
       <Box sx={{ display: 'flex', gap: 2 }}>
@@ -88,21 +81,20 @@ const ContactForm = ({ contact }: Props) => {
           error={Boolean(errors?.phone)}
           label={ContactFormMessage.PHONE_NUMBER_LABEL}
           helperText={ContactFormMessage.PHONE_NUMBER_HELPER_TEXT}
-          variant="filled"
-          fullWidth
         />
         <TextField
           {...register('email', { required: true })}
           error={Boolean(errors?.email)}
           label={ContactFormMessage.EMAIL_LABEL}
           helperText={ContactFormMessage.EMAIL_HELPER_TEXT}
-          variant="filled"
-          fullWidth
         />
       </Box>
       <Box>
-        <Button variant="contained">Update contact</Button>
+        <Button endIcon={<SaveIcon />} onClick={onSubmit} disabled={isLoading}>
+          Update contact
+        </Button>
       </Box>
+      <NotificationComponent />
     </Box>
   )
 }

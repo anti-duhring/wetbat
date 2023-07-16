@@ -19,15 +19,11 @@ const ContactForm = ({ errors, register }: TContactFormProps) => {
           {...register('firstName', { required: true })}
           error={Boolean(errors?.firstName)}
           label={ContactFormMessage.FIRST_NAME_LABEL}
-          variant="filled"
-          fullWidth
         />
         <TextField
           {...register('lastName', { required: true })}
           error={Boolean(errors?.lastName)}
           label={ContactFormMessage.LAST_NAME_LABEL}
-          variant="filled"
-          fullWidth
         />
       </Box>
       <Box sx={{ display: 'flex', gap: 2 }}>
@@ -35,15 +31,11 @@ const ContactForm = ({ errors, register }: TContactFormProps) => {
           {...register('phone', { required: true })}
           error={Boolean(errors?.phone)}
           label={ContactFormMessage.PHONE_NUMBER_LABEL}
-          variant="filled"
-          fullWidth
         />
         <TextField
           {...register('email', { required: true })}
           error={Boolean(errors?.email)}
           label={ContactFormMessage.EMAIL_LABEL}
-          variant="filled"
-          fullWidth
         />
       </Box>
     </Box>

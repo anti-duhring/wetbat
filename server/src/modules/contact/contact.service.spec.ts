@@ -62,7 +62,9 @@ describe('Contact Service', () => {
 
       prismaService.contact.findUnique = jest.fn().mockResolvedValue(null);
 
-      const result = await contactService.create(newContact as CreateContactDTO);
+      const result = await contactService.create(
+        newContact as CreateContactDTO,
+      );
 
       expect(prismaService.contact.create).toHaveBeenCalledTimes(1);
       expect(result).toEqual({ ...newContact, id: expect.any(String) });
@@ -75,9 +77,9 @@ describe('Contact Service', () => {
         .fn()
         .mockResolvedValue(contactFactory.build({ email }));
 
-      await expect(contactService.create(newContact as CreateContactDTO)).rejects.toThrow(
-        InvalidDataException,
-      );
+      await expect(
+        contactService.create(newContact as CreateContactDTO),
+      ).rejects.toThrow(InvalidDataException);
       expect(prismaService.contact.create).toHaveBeenCalledTimes(0);
     });
     it('Should throw an error if contact with same phone already exists', async () => {
@@ -88,9 +90,9 @@ describe('Contact Service', () => {
         .fn()
         .mockResolvedValue(contactFactory.build({ phone }));
 
-      await expect(contactService.create(newContact as CreateContactDTO)).rejects.toThrow(
-        InvalidDataException,
-      );
+      await expect(
+        contactService.create(newContact as CreateContactDTO),
+      ).rejects.toThrow(InvalidDataException);
       expect(prismaService.contact.create).toHaveBeenCalledTimes(0);
     });
   });

@@ -21,16 +21,18 @@ import {
 } from '@mui/material'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { ContactMessage, QuoteMessage } from '@/app/core/enums'
 import ContactForm from './ContactForm'
 import QuoteForm from './QuoteForm'
 import Widget from './Widget'
+import Loading from './Loading'
 
 const QuickQuote = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isClient, setIsClient] = useState(false)
   const { NotificationComponent, openNotification, closeNotification } =
     useNotification()
   const {
@@ -71,13 +73,15 @@ const QuickQuote = () => {
     }
 
     closeNotification()
-    handleSubmit((data: TCreateQuote) => {
-      console.log(Object.keys(errors))
-      create(data)
-    })()
+    handleSubmit((data) => create(data))()
   }
 
   const handleDialogClose = () => setIsDialogOpen(false)
+
+  // Reference: https://nextjs.org/docs/messages/react-hydration-error
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -90,13 +94,15 @@ const QuickQuote = () => {
           </IconButton>
         }
         sx={{ flex: 1, flexShrink: 2 }}
+        contentSx={{ height: '100%' }}
       >
-        <QuoteForm errors={errors} register={register} control={control} />
+        {isClient ? (
+          <QuoteForm errors={errors} register={register} control={control} />
+        ) : (
+          <Loading />
+        )}
         <Button
-          variant="contained"
           color="secondary"
-          size="large"
-          type="submit"
           disableElevation
           sx={{
             color: (theme) => theme.palette.common.white,
@@ -161,9 +167,7 @@ const QuickContactDialog = ({
     }
 
     closeNotification()
-    handleSubmit((data: TCreateContact) => {
-      create(data)
-    })()
+    handleSubmit((data) => create(data))()
   }
 
   return (

@@ -34,11 +34,8 @@ const CloseRatiosChart = () => {
         </IconButton>
       }
       sx={{ flex: 1 }}
-      contentSx={{ display: 'flex', alignItems: 'center' }}
     >
-      <Box>
-        <Doughnut data={data} options={{ animation: false }} />
-      </Box>
+      <Doughnut data={data} options={{ animation: false }}  />
     </Widget>
   )
 }

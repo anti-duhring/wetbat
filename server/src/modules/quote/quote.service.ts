@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 
 import { QuoteErrorMessages } from '../../common/errorMessages';
-import { EntityNotFoundException, InvalidDataException } from '../../common/exceptions';
+import {
+  EntityNotFoundException,
+  InvalidDataException,
+} from '../../common/exceptions';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateQuoteDTO, QuoteDTO, UpdateQuoteDTO } from './quote.dto';
+import { CreateQuoteDTO, UpdateQuoteDTO } from './quote.dto';
 import { QuoteStatus } from './quote.types';
 
 @Injectable()
@@ -11,26 +14,54 @@ export class QuoteService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateQuoteDTO) {
-    const { destinationDate, departureDate, contactEmail, departureLocationName,destinationLocationName } = data;
+    const {
+      destinationDate,
+      departureDate,
+      contactEmail,
+      departureLocationName,
+      destinationLocationName,
+    } = data;
 
     this.validateDestinationAndDepartureDate(destinationDate, departureDate);
     await this.validateIfContactExists(contactEmail);
-    await this.validateIfAirpotsExists(departureLocationName, destinationLocationName)
+    await this.validateIfAirpotsExists(
+      departureLocationName,
+      destinationLocationName,
+    );
 
-    const quote = await this.prisma.quote.create({ data: {...data, status: QuoteStatus.PENDING} });
+    const quote = await this.prisma.quote.create({
+      data: { ...data, status: QuoteStatus.PENDING },
+    });
 
     return quote;
   }
 
-  async findAll() {
-    const quotes = await this.prisma.quote.findMany({ include: { contact: true, departureLocation: true, destinationLocation: true }, orderBy: { createdAt: 'desc'  } });
+  async findAll(max: number = 10) {
+    if (max < 0)
+      throw new InvalidDataException(
+        QuoteErrorMessages.MAX_QUOTES_LESS_THAN_ZERO,
+      );
+
+    const quotes = await this.prisma.quote.findMany({
+      include: {
+        contact: true,
+        departureLocation: true,
+        destinationLocation: true,
+      },
+      orderBy: { createdAt: 'desc' },
+      take: max,
+    });
     return quotes;
   }
 
   async findOne(id: string) {
     const quote = await this.prisma.quote.findUnique({
       where: { id },
-      include: { contact: true, departureLocation: true, destinationLocation: true },
+      include: {
+        contact: true,
+        departureLocation: true,
+        destinationLocation: true,
+      },
     });
     if (!quote) {
       throw new EntityNotFoundException('Quote');
@@ -76,10 +107,12 @@ export class QuoteService {
     if (!contactExists) {
       throw new EntityNotFoundException('Contact');
     }
-  
   }
 
-  async validateIfAirpotsExists(departureLocationName: string, destinationLocationName: string) {
+  async validateIfAirpotsExists(
+    departureLocationName: string,
+    destinationLocationName: string,
+  ) {
     const departureLocationExists = await this.prisma.airport.findUnique({
       where: { name: departureLocationName },
     });
@@ -95,8 +128,6 @@ export class QuoteService {
     if (!destinationLocationExists) {
       throw new EntityNotFoundException('destination Airport');
     }
-  
-  
   }
 
   validateDestinationAndDepartureDate(

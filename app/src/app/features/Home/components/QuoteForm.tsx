@@ -25,7 +25,6 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
       <AutocompleteInputAirport
         inputProps={{
           label: QuoteFormMessage.DEPARTURE_LOCATION_LABEL,
-          variant: 'filled',
           error: Boolean(errors.departureLocationName?.message),
           ...register('departureLocationName'),
         }}
@@ -33,7 +32,6 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
       <AutocompleteInputAirport
         inputProps={{
           label: QuoteFormMessage.DESTINATION_LOCATION_LABEL,
-          variant: 'filled',
           error: Boolean(errors.destinationLocationName?.message),
           ...register('destinationLocationName'),
         }}
@@ -47,13 +45,11 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
               label={QuoteFormMessage.DEPARTURE_DATE_LABEL}
               value={value}
               onChange={onChange}
-              variant="filled"
               slotProps={{
                 textField: {
                   error: Boolean(errors.departureDate?.message),
                 },
               }}
-              fullWidth
             />
           )}
         />
@@ -65,13 +61,11 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
               label={QuoteFormMessage.DESTINATION_DATE_LABEL}
               value={value}
               onChange={onChange}
-              variant="filled"
               slotProps={{
                 textField: {
                   error: Boolean(errors.destinationDate?.message),
                 },
               }}
-              fullWidth
             />
           )}
         />
@@ -80,32 +74,24 @@ const QuoteForm = ({ register, control, errors }: TQuoteFormProps) => {
         <TextField
           {...register('travellersAmount')}
           label={QuoteFormMessage.TRAVELLERS_AMOUNT_LABEL}
-          variant="filled"
           type="number"
           error={Boolean(errors.travellersAmount?.message)}
-          fullWidth
         />
         <TextField
           {...register('transportation')}
           label={QuoteFormMessage.TRANSPORTATION_TYPE_LABEL}
-          variant="filled"
           error={Boolean(errors.transportation?.message)}
-          fullWidth
         />
       </Box>
       <TextField
         {...register('price')}
         label={QuoteFormMessage.PRICE_LABEL}
-        fullWidth
-        variant="filled"
         type="number"
         error={Boolean(errors.price?.message)}
       />
       <TextField
         {...register('contactEmail')}
         label={QuoteFormMessage.CONTACT_LABEL}
-        fullWidth
-        variant="filled"
         error={Boolean(errors.contactEmail?.message)}
       />
     </Box>

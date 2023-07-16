@@ -1,5 +1,6 @@
 'use client'
 
+import theme from '@/app/core/theme'
 import {
   Button,
   Card,
@@ -8,6 +9,7 @@ import {
   CardMedia,
   Typography,
   Box,
+  useMediaQuery,
 } from '@mui/material'
 
 const ticketData = {
@@ -22,10 +24,19 @@ const ticketData = {
 }
 
 const DestinationTicket = () => {
+  const isMediaQueryAboveSm = useMediaQuery(theme.breakpoints.up('sm'))
   const { image, title, description, price } = ticketData
 
   return (
-    <Card sx={{ maxWidth: 300 }} elevation={4}>
+    <Card
+      sx={{
+        maxWidth: 300,
+        position: isMediaQueryAboveSm ? 'absolute' : 'inherit',
+        right: 0,
+        top: 0,
+      }}
+      elevation={4}
+    >
       <CardMedia sx={{ height: 140 }} image={image} title={title} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
