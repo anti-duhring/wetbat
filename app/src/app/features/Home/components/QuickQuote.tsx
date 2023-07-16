@@ -1,32 +1,20 @@
 'use client'
 
-import FastForwardOutlinedIcon from '@mui/icons-material/FastForwardOutlined'
-import FullscreenIcon from '@mui/icons-material/Fullscreen'
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-} from '@mui/material'
-import { LocalizationProvider } from '@mui/x-date-pickers'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import QuoteForm from './QuoteForm'
-import Widget from './Widget'
-import { contactSchema, quoteSchema } from '../utils/formValidations'
-import {
-  NotificationSeverity,
-  useCreateQuote,
-  useNotification,
-} from '@/app/core'
-import ContactForm from './ContactForm'
-import { ContactMessage, QuoteMessage } from '../utils/enums'
-import { useCreateContact } from '@/app/core/hooks/useCreateContact'
+import { contactSchema, quoteSchema } from '@/app/core';
+import { NotificationSeverity, useCreateContact, useCreateQuote, useNotification } from '@/app/core/hooks';
+import { yupResolver } from '@hookform/resolvers/yup';
+import FastForwardOutlinedIcon from '@mui/icons-material/FastForwardOutlined';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+import { ContactMessage, QuoteMessage } from '@/app/core/enums';
+import ContactForm from './ContactForm';
+import QuoteForm from './QuoteForm';
+import Widget from './Widget';
 
 const QuickQuote = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)

@@ -1,6 +1,6 @@
 'use client'
 
-import { useAutocompleteAirports } from '@/app/core'
+import { useAutocompleteAirports } from '@/app/core/hooks'
 import { AutocompleteInput } from '@/app/core/components'
 import { Box, TextField, TextFieldProps } from '@mui/material'
 import { DateField } from '@mui/x-date-pickers'

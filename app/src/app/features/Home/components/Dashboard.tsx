@@ -15,7 +15,6 @@ const Dashboard = () => {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        p: 2,
         flexWrap: 'wrap',
         gap: 2,
       }}

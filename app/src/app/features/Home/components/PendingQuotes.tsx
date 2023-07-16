@@ -12,7 +12,7 @@ import {
   TableBody,
 } from '@mui/material'
 import ReplayIcon from '@mui/icons-material/Replay'
-import { useQuotes } from '@/app/core'
+import { useQuotes } from '@/app/core/hooks'
 
 const PendingQuotes = () => {
   const { data, isLoading, isFetching, refetch } = useQuotes()

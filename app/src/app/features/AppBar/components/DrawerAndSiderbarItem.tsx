@@ -17,7 +17,7 @@ type Props = {
 const DrawerAndSidebarItem = ({ Icon, title, link }: Props) => {
   return (
     <ListItem disablePadding>
-      <ListItemButton>
+      <ListItemButton component="a" href={link}>
         <ListItemIcon sx={{ color: theme.palette.primary.main }}>
           {Icon}
         </ListItemIcon>

@@ -1,15 +1,14 @@
 'use client'
 
-import { Box } from '@mui/material'
-import QuickQuote from './QuickQuote'
-import PendingQuotes from './PendingQuotes'
-import NewLeads from './NewLeads'
-import { useEffect, useState } from 'react'
-import Widget from './Widget'
-import { SvgIconTypeMap, IconButton, CircularProgress } from '@mui/material'
-import { OverridableComponent } from '@mui/material/OverridableComponent'
-import FastForwardOutlinedIcon from '@mui/icons-material/FastForwardOutlined'
-import FullscreenIcon from '@mui/icons-material/Fullscreen'
+import FastForwardOutlinedIcon from '@mui/icons-material/FastForwardOutlined';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import { Box, CircularProgress, IconButton } from '@mui/material';
+import { useEffect, useState } from 'react';
+
+import NewLeads from './NewLeads';
+import PendingQuotes from './PendingQuotes';
+import QuickQuote from './QuickQuote';
+import Widget from './Widget';
 
 const QuoteWidgets = () => {
   const [isClient, setIsClient] = useState(false)
@@ -32,7 +31,7 @@ const QuoteWidgets = () => {
       {isClient ? (
         <QuickQuote />
       ) : (
-        <LoadingWidget Icon={FastForwardOutlinedIcon} title="Quick quote" />
+        <LoadingQuickQuoteWidget />
       )}
       <PendingQuotes />
       <NewLeads />
@@ -40,17 +39,11 @@ const QuoteWidgets = () => {
   )
 }
 
-type TLoadingWidgetProps = {
-  title: string
-  Icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
-    muiName: string
-  }
-}
-const LoadingWidget = ({ title, Icon }: TLoadingWidgetProps) => {
+const LoadingQuickQuoteWidget = () => {
   return (
     <Widget
-      title={title}
-      Icon={Icon}
+      title="Quick quote"
+      Icon={FastForwardOutlinedIcon}
       actionButtons={
         <IconButton>
           <FullscreenIcon />
