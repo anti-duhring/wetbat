@@ -15,13 +15,11 @@ type TUseQuotesParams = {
   quoteId?: string
 }
 
-type TUseQuery<T> = T extends true
-  ? UseQueryResult<Required<TQuote>>
-  : UseQueryResult<Required<TQuote[]>>
+type TUseQuery<T> = UseQueryResult<Required<T>>
 
-export function useQuotes(params: { quoteId?: string }): TUseQuery<true>
-export function useQuotes(params: { quoteId?: undefined }): TUseQuery<false>
-export function useQuotes(): TUseQuery<false>
+export function useQuotes(params: { quoteId?: string }): TUseQuery<TQuote>
+export function useQuotes(params: { quoteId?: undefined }): TUseQuery<TQuote[]>
+export function useQuotes(): TUseQuery<TQuote[]>
 export function useQuotes(params: TUseQuotesParams = {}) {
   const { quoteId } = params
 
