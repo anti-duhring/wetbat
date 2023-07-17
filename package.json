@@ -4,7 +4,8 @@
   "description": "The wetbat application",
   "scripts": {
     "dev": "turbo start:dev",
-    "prisma:generate": "turbo prisma:generate"
+    "prisma:generate": "turbo prisma:generate",
+    "test": "turbo test"
   },
   "workspaces": [
     "server",

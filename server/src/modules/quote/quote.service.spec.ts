@@ -9,6 +9,8 @@ import {
   EntityNotFoundException,
   InvalidDataException,
 } from '../../common/exceptions';
+import { ContactDTO } from '../contact/contact.dto';
+import { AirportDTO } from '../airport/airport.dto';
 
 describe('Quotes Service', () => {
   let quoteService: QuoteService;
@@ -17,9 +19,9 @@ describe('Quotes Service', () => {
   const quoteFactory = Factory.Sync.makeFactory<Partial<QuoteDTO>>({
     contactEmail: Factory.each(() => faker.internet.email()),
     departureDate: Factory.each(() => faker.date.soon()),
-    departureLocation: Factory.each(() => faker.location.city()),
+    departureLocationName: Factory.each(() => faker.location.city()),
     destinationDate: Factory.each(() => faker.date.future()),
-    destinationLocation: Factory.each(() => faker.location.city()),
+    destinationLocationName: Factory.each(() => faker.location.city()),
     price: Factory.each(() => faker.number.int()),
     transportation: Factory.each(() => faker.vehicle.type()),
     travellersAmount: Factory.each(() => faker.number.int({ min: 1 })),
@@ -27,6 +29,23 @@ describe('Quotes Service', () => {
       faker.helpers.arrayElement(Object.values(QuoteStatus)),
     ),
   });
+
+  const contactFactory = Factory.Sync.makeFactory<Partial<ContactDTO>>({
+    email: Factory.each(() => faker.internet.email()),
+    firstName: Factory.each(() => faker.person.firstName()),
+    lastName: Factory.each(() => faker.person.lastName()),
+    phone: Factory.each(() => faker.phone.number()),
+  });
+
+  const airportFactory = Factory.Sync.makeFactory<Partial<AirportDTO>>({
+    city: Factory.each(() => faker.location.city()),
+    country: Factory.each(() => faker.location.country()),
+    lat: Factory.each(() => faker.location.latitude() as any),
+    lon: Factory.each(() => faker.location.longitude() as any),
+    name: Factory.each(() => `Airport of ${faker.location.city()}`),
+    state: Factory.each(() => faker.location.state()),
+    tz: Factory.each(() => faker.location.timeZone()),
+  })
 
   beforeEach(async () => {
     const prismaServiceMocked = {
@@ -51,8 +70,14 @@ describe('Quotes Service', () => {
                 quoteFactory.build({ id: faker.string.uuid() }),
               ),
             ),
-          findUnique: jest.fn(),
+          findUnique: jest.fn().mockResolvedValue(null),
         },
+        contact: {
+          findUnique: jest.fn().mockResolvedValue(null),
+        },
+        airport: {
+          findUnique: jest.fn().mockResolvedValue(null),
+        }
       },
     };
     const moduleRef = await Test.createTestingModule({
@@ -66,6 +91,13 @@ describe('Quotes Service', () => {
   describe('Create', () => {
     it('Should create a quote', async () => {
       const newQuoteData = quoteFactory.build() as CreateQuoteDTO;
+      const contact = contactFactory.build({ email: newQuoteData.contactEmail }); 
+
+      prismaService.contact.findUnique = jest
+      .fn()
+      .mockResolvedValue(contact);
+
+      prismaService.airport.findUnique = jest.fn().mockImplementation(name => Promise.resolve(airportFactory.build({ name })))
 
       const result = await quoteService.create(newQuoteData);
 
