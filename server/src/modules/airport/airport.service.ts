@@ -53,7 +53,7 @@ export class AirportService {
             _count: 'desc',
           },
         },
-        take: total,
+        take: Number(total),
         include: {
           quotesDestination: true,
         },
